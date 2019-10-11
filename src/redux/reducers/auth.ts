@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
 
-import CONSTANTS from '../constants';
+import CONSTANTS from '../../utils/constants';
 
 export const auth = handleActions(
   {

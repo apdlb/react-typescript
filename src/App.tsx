@@ -1,16 +1,13 @@
-import './App.css';
-
 import { Layout } from 'antd';
 import React, { Component, ReactNode } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { addTranslation, initialize } from 'react-localize-redux';
 import { connect } from 'react-redux';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import Footer from './components/globals/Footer';
-import Header from './components/globals/Header';
-import CONSTANTS from './constants';
-import Login from './containers/auth/Login';
+import Routers from './components/routers';
+import Footer from './components/shared/Footer';
+import Header from './components/shared/Header';
+import CONSTANTS from './utils/constants';
 
 interface Props {
   initialize(config: object): any;
@@ -54,13 +51,7 @@ class App extends Component<Props, State> {
       <>
         <Layout className="grid-container">
           <Header />
-          <BrowserRouter>
-            <Switch>
-              <Route exact path="/" component={Login} />
-
-              <Route path="/" render={() => <Redirect to="/" />} />
-            </Switch>
-          </BrowserRouter>
+          <Routers />
           <Footer />
         </Layout>
       </>

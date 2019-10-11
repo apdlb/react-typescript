@@ -1,0 +1,29 @@
+.grid-login-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, auto);
+
+  grid-template-areas:
+    'inputs'
+    'buttons';
+
+  .grid-login-inputs {
+    grid-area: inputs;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, auto);
+
+    .grid-login-input-email {
+      grid-column: span 3;
+    }
+
+    .grid-login-input-address {
+      grid-column: span 3;
+    }
+  }
+
+  .grid-login-buttons {
+    grid-area: buttons;
+  }
+}

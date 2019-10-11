@@ -7,8 +7,8 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 
 import App from './App';
+import { persistor, store } from './redux/store';
 import * as serviceWorker from './serviceWorker';
-import { persistor, store } from './store';
 
 const rootComponent = (
   <Provider store={store}>

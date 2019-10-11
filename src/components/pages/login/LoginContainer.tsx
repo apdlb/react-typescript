@@ -4,9 +4,9 @@ import React, { Component, ReactNode } from 'react';
 import { getTranslate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 
-import { login } from '../../actions/AuthActions';
-import LoginForm from '../../components/auth/LoginForm';
-import Content from '../../components/globals/Content';
+import { login } from '../../../redux/actions/AuthActions';
+import Content from '../../shared/Content';
+import LoginForm from './LoginForm';
 
 interface Props extends FormComponentProps {
   translate: object;
@@ -17,7 +17,7 @@ interface Props extends FormComponentProps {
 }
 interface State {}
 
-class Login extends Component<Props, State> {
+class LoginContainer extends Component<Props, State> {
   componentDidMount() {
     // To disabled submit button at the beginning.
     this.props.form.validateFields();
@@ -49,9 +49,9 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth
 });
 
-const WrappedLogin = Form.create<Props>({ name: 'login' })(Login);
+const WrappedLoginContainer = Form.create<Props>({ name: 'login' })(LoginContainer);
 
 export default connect(
   mapStateToProps,
   { login }
-)(WrappedLogin);
+)(WrappedLoginContainer);

@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-import { IErrorControl } from '../utils/interfaces';
+import { IErrorControl } from '../interfaces';
 
 export const errorControl = ({ props, err, redirect = false }: IErrorControl) => {
   let code /*, details, message*/;

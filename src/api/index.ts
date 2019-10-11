@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { IApiFetch } from '../utils/interfaces';
+import { IApiFetch } from '../interfaces';
 
 function urlWithParams(url: string, params?: string | string[]) {
   if (params) {
