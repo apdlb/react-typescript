@@ -1,11 +1,13 @@
+import { message } from 'antd';
+
 import { IErrorControl } from '../utils/interfaces';
 
 export const errorControl = ({ props, err, redirect = false }: IErrorControl) => {
-  let code, details, message;
+  let code /*, details, message*/;
 
   code = err.code;
-  message = err.message;
-  details = err.details;
+  // message = err.message;
+  // details = err.details;
 
   if (code === 401) {
     if (props.auth && props.auth.tfa && props.auth.tfa.refresh_token) {
@@ -18,4 +20,40 @@ export const errorControl = ({ props, err, redirect = false }: IErrorControl) =>
   } else {
     // TODO error generico
   }
+};
+
+export const messageControl = (promise: Promise<any>) => {
+  return promise
+    .then((r: any) => {
+      let res = r;
+
+      if (r.payload) {
+        res = r.payload;
+      }
+
+      if (res.message) {
+        message.info(res.message);
+      }
+
+      return r;
+    })
+    .catch((err: any) => {
+      console.log(err);
+    });
+};
+
+export const formItemValidateStatus = (form: any, name: string) => {
+  const { getFieldError, isFieldTouched } = form;
+
+  const error = isFieldTouched(name) && getFieldError(name);
+
+  return error ? 'error' : '';
+};
+
+export const formItemHelp = (form: any, name: string) => {
+  const { getFieldError, isFieldTouched } = form;
+
+  const error = isFieldTouched(name) && getFieldError(name);
+
+  return error || '';
 };

@@ -12,7 +12,3 @@ export interface IErrorControl {
   err: any;
   redirect?: boolean;
 }
-
-export interface ILoginForm {
-  onSubmit(e: any): any;
-}

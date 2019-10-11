@@ -9,7 +9,7 @@ interface Props {
 const Content: React.FunctionComponent<Props> = ({ body }) => {
   return (
     <>
-      <Layout.Content className="grid-content">{body}</Layout.Content>;
+      <Layout.Content className="grid-content">{body}</Layout.Content>
     </>
   );
 };

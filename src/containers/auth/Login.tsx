@@ -11,18 +11,26 @@ interface Props {
   auth: object;
   form: any;
   login(form: any): any;
+  id?: string | number;
 }
 interface State {}
 
 class Login extends Component<Props, State> {
   onSubmit = (e: any) => {
     e.preventDefault();
+
+    this.props.form.validateFields((err: any, values: any) => {
+      if (!err) {
+        this.props.login(values);
+      }
+    });
   };
 
   render(): ReactNode {
+    console.log(this.props);
     return (
       <>
-        <Content body={<LoginForm onSubmit={this.onSubmit} />}></Content>;
+        <Content body={<LoginForm onSubmit={this.onSubmit} />}></Content>
       </>
     );
   }

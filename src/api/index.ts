@@ -24,7 +24,7 @@ function urlWithParams(url: string, params?: string | string[]) {
   return url;
 }
 
-export const apiFetch = ({ method, url, body, params, file = false, formData }: IApiFetch) => {
+export const apiFetch = ({ method, url, body, params, file = false, formData }: IApiFetch): Promise<any> => {
   const headers = {} as any;
 
   if (localStorage.getItem('jwtToken')) headers.Authorization = `Bearer ${localStorage.getItem('jwtToken')}`;
