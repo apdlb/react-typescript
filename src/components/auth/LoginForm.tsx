@@ -26,7 +26,16 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                 help={formItemHelp(form, 'email')}
               >
                 {getFieldDecorator('email', {
-                  rules: [{ required: true, message: translate('validations.required', { input: translate('auth.labels.email') }) }]
+                  rules: [
+                    {
+                      validator(rule, value, callback) {
+                        if (!value) {
+                          callback(translate('validations.required', { input: translate('auth.labels.email') }));
+                        }
+                        callback();
+                      }
+                    }
+                  ]
                 })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={`${translate('auth.labels.email')}`} />)}
               </Form.Item>
               <Form.Item
@@ -35,7 +44,16 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                 help={formItemHelp(form, 'password')}
               >
                 {getFieldDecorator('password', {
-                  rules: [{ required: true, message: translate('validations.required', { input: translate('auth.labels.password') }) }]
+                  rules: [
+                    {
+                      validator(rule, value, callback) {
+                        if (!value) {
+                          callback(translate('validations.required', { input: translate('auth.labels.password') }));
+                        }
+                        callback();
+                      }
+                    }
+                  ]
                 })(
                   <Input.Password
                     prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
