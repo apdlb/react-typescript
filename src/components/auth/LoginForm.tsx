@@ -1,17 +1,18 @@
 import { Button, Form, Icon, Input } from 'antd';
-import { FormComponentProps } from 'antd/lib/form';
+import { WrappedFormUtils } from 'antd/lib/form/Form';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import { formItemHelp, formItemValidateStatus } from '../../helpers';
+import { formHasErrors, formItemHelp, formItemValidateStatus } from '../../helpers';
 
-interface Props extends FormComponentProps {
+interface Props {
+  form: WrappedFormUtils;
   onSubmit(e: any): any;
 }
 
 const LoginForm: React.FunctionComponent<Props> = props => {
   const { form, onSubmit } = props;
-  const { getFieldDecorator } = form;
+  const { getFieldDecorator, getFieldsError } = form;
 
   return (
     <Translate>
@@ -26,7 +27,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
               >
                 {getFieldDecorator('email', {
                   rules: [{ required: true, message: 'Please input your email!' }]
-                })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email" />)}
+                })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={`${translate('auth.labels.email')}`} />)}
               </Form.Item>
               <Form.Item
                 label={translate('auth.labels.password')}
@@ -35,10 +36,15 @@ const LoginForm: React.FunctionComponent<Props> = props => {
               >
                 {getFieldDecorator('password', {
                   rules: [{ required: true, message: 'Please input your password!' }]
-                })(<Input.Password name="password" />)}
+                })(
+                  <Input.Password
+                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    placeholder={`${translate('auth.labels.password')}`}
+                  />
+                )}
               </Form.Item>
               <Form.Item>
-                <Button htmlType="submit" type="primary">
+                <Button htmlType="submit" type="primary" disabled={formHasErrors(getFieldsError())}>
                   {translate('auth.labels.login')}
                 </Button>
               </Form.Item>
@@ -50,6 +56,4 @@ const LoginForm: React.FunctionComponent<Props> = props => {
   );
 };
 
-const WrappedLoginForm = Form.create<Props>({ name: 'loginForm' })(LoginForm);
-
-export default WrappedLoginForm;
+export default LoginForm;

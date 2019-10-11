@@ -42,6 +42,10 @@ export const messageControl = (promise: Promise<any>) => {
     });
 };
 
+export const formHasErrors = (fieldsError: any) => {
+  return Object.keys(fieldsError).some(field => fieldsError[field]);
+};
+
 export const formItemValidateStatus = (form: any, name: string) => {
   const { getFieldError, isFieldTouched } = form;
 
