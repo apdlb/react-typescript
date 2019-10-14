@@ -3,17 +3,20 @@ import { FormComponentProps } from 'antd/lib/form';
 import React from 'react';
 import { getTranslate } from 'react-localize-redux';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
 
 import { login } from '../../../redux/actions/AuthActions';
 import Content from '../../shared/Content';
 import LoginForm from './LoginForm';
 
-interface Props extends FormComponentProps {
+interface MatchParams {
+  id?: string;
+}
+interface Props extends RouteComponentProps<MatchParams> {
   translate: object;
   auth: object;
   form: any;
   login: Function;
-  id?: string | number;
 }
 interface State {}
 
