@@ -1,6 +1,6 @@
 import { Form } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import React, { Component, ReactNode } from 'react';
+import React from 'react';
 import { getTranslate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 
@@ -12,12 +12,12 @@ interface Props extends FormComponentProps {
   translate: object;
   auth: object;
   form: any;
-  login(values: any): any;
+  login: Function;
   id?: string | number;
 }
 interface State {}
 
-class LoginContainer extends Component<Props, State> {
+class LoginContainer extends React.Component<Props, State> {
   componentDidMount() {
     // To disabled submit button at the beginning.
     this.props.form.validateFields();
@@ -33,7 +33,7 @@ class LoginContainer extends Component<Props, State> {
     });
   };
 
-  render(): ReactNode {
+  render(): React.ReactNode {
     const { form } = this.props;
 
     return (

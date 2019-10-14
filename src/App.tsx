@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import React, { Component, ReactNode } from 'react';
+import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { addTranslation, initialize } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -10,12 +10,12 @@ import Header from './components/shared/Header';
 import CONSTANTS from './utils/constants';
 
 interface Props {
-  initialize(config: object): any;
-  addTranslation(config: object): any;
+  initialize: Function;
+  addTranslation: Function;
 }
 interface State {}
 
-class App extends Component<Props, State> {
+class App extends React.Component<Props, State> {
   componentDidMount = () => {
     const defaultLanguage = CONSTANTS.LANGUAGE_ES;
 
@@ -46,7 +46,7 @@ class App extends Component<Props, State> {
     this.props.addTranslation(require('./locales/auth.json'));
   };
 
-  render(): ReactNode {
+  render(): React.ReactNode {
     return (
       <>
         <Layout className="grid-container">

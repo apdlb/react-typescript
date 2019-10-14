@@ -9,9 +9,9 @@ const Routers: React.FunctionComponent<Props> = props => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Login} />
+        <Route exact path="/login" component={Login} />
 
-        <Route path="/" render={() => <Redirect to="/" />} />
+        <Route path="/" render={() => <Redirect to="/login" />} />
       </Switch>
     </Router>
   );

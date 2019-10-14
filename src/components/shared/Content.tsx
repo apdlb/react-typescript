@@ -1,9 +1,9 @@
 import { Layout } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 interface Props {
-  body: ReactNode | FormComponentProps;
+  body: React.ReactNode | FormComponentProps;
 }
 
 const Content: React.FunctionComponent<Props> = ({ body }) => {
