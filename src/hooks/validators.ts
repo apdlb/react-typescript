@@ -11,9 +11,19 @@ const useValidators = () => {
       callback(translate('validations.required', { input: label }));
     }
   };
+  const email = (callback: Function, value: string, label?: string | number | React.ReactNode) => {
+    if (
+      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        value
+      )
+    ) {
+      callback(translate('validations.email'));
+    }
+  };
 
   return {
-    required
+    required,
+    email
   };
 };
 

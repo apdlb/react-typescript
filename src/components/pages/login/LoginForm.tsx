@@ -5,7 +5,7 @@ import { WrappedFormUtils } from 'antd/lib/form/Form';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import { formHasErrors, formItemHelp, formItemValidateStatus } from '../../../utils/helpers';
+import { formHasErrors } from '../../../utils/helpers';
 import FormItem from '../../shared/FormItem';
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 
 const LoginForm: React.FunctionComponent<Props> = props => {
   const { form, onSubmit } = props;
-  const { getFieldDecorator, getFieldsError } = form;
+  const { getFieldsError } = form;
 
   return (
     <Translate>
@@ -29,35 +29,23 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                   className="grid-login-form-input-email"
                   field="email"
                   label={translate('auth.labels.email')}
-                  validations={['required']}
+                  validations={['required', 'email']}
                 >
                   <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={`${translate('auth.labels.email')}`} />
                 </FormItem>
 
-                <Form.Item
+                <FormItem
+                  form={form}
                   className="grid-login-form-input-password"
+                  field="password"
                   label={translate('auth.labels.password')}
-                  validateStatus={formItemValidateStatus(form, 'password')}
-                  help={formItemHelp(form, 'password')}
+                  validations={['required']}
                 >
-                  {getFieldDecorator('password', {
-                    rules: [
-                      {
-                        validator(rule, value, callback) {
-                          if (!value) {
-                            callback(translate('validations.required', { input: translate('auth.labels.password') }));
-                          }
-                          callback();
-                        }
-                      }
-                    ]
-                  })(
-                    <Input.Password
-                      prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                      placeholder={`${translate('auth.labels.password')}`}
-                    />
-                  )}
-                </Form.Item>
+                  <Input.Password
+                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    placeholder={`${translate('auth.labels.password')}`}
+                  />
+                </FormItem>
               </Layout>
               <Layout className="grid-login-form-buttons">
                 <Form.Item>
