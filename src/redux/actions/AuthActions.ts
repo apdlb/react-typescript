@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions';
 
-import { apiFetch } from '../../api';
-import { urlAuthToken } from '../../api/urls';
+import { apiFetch } from '../../services';
+import { urlAuthToken } from '../../services/urls';
 import CONSTANTS from '../../utils/constants';
 
 export const cleanAuth = createAction(CONSTANTS.ACTION_CLEAN_AUTH, () => {});
