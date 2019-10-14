@@ -22,9 +22,9 @@ const LoginForm: React.FunctionComponent<Props> = props => {
         return (
           <>
             <Form className="grid-login-form" onSubmit={onSubmit} layout="vertical">
-              <Layout className="grid-login-inputs">
+              <Layout className="grid-login-form-inputs">
                 <Form.Item
-                  className="grid-login-input-name"
+                  className="grid-login-form-input-name"
                   label={translate('auth.labels.name')}
                   validateStatus={formItemValidateStatus(form, 'name')}
                   help={formItemHelp(form, 'name')}
@@ -43,7 +43,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                   })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={`${translate('auth.labels.name')}`} />)}
                 </Form.Item>
                 <Form.Item
-                  className="grid-login-input-surname"
+                  className="grid-login-form-input-surname"
                   label={translate('auth.labels.surname')}
                   validateStatus={formItemValidateStatus(form, 'surname')}
                   help={formItemHelp(form, 'surname')}
@@ -64,7 +64,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                   )}
                 </Form.Item>
                 <Form.Item
-                  className="grid-login-input-email"
+                  className="grid-login-form-input-email"
                   label={translate('auth.labels.email')}
                   validateStatus={formItemValidateStatus(form, 'email')}
                   help={formItemHelp(form, 'email')}
@@ -83,7 +83,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                   })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={`${translate('auth.labels.email')}`} />)}
                 </Form.Item>
                 <Form.Item
-                  className="grid-login-input-address"
+                  className="grid-login-form-input-address"
                   label={translate('auth.labels.address')}
                   validateStatus={formItemValidateStatus(form, 'address')}
                   help={formItemHelp(form, 'address')}
@@ -104,7 +104,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                   )}
                 </Form.Item>
                 <Form.Item
-                  className="grid-login-input-gender"
+                  className="grid-login-form-input-gender"
                   label={translate('auth.labels.gender')}
                   validateStatus={formItemValidateStatus(form, 'gender')}
                   help={formItemHelp(form, 'gender')}
@@ -123,7 +123,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                   })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={`${translate('auth.labels.gender')}`} />)}
                 </Form.Item>
                 <Form.Item
-                  className="grid-login-input-dateBirth"
+                  className="grid-login-form-input-dateBirth"
                   label={translate('auth.labels.dateBirth')}
                   validateStatus={formItemValidateStatus(form, 'dateBirth')}
                   help={formItemHelp(form, 'dateBirth')}
@@ -144,7 +144,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                   )}
                 </Form.Item>
                 <Form.Item
-                  className="grid-login-input-mobile"
+                  className="grid-login-form-input-mobile"
                   label={translate('auth.labels.mobile')}
                   validateStatus={formItemValidateStatus(form, 'mobile')}
                   help={formItemHelp(form, 'mobile')}
@@ -163,7 +163,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                   })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={`${translate('auth.labels.mobile')}`} />)}
                 </Form.Item>
                 <Form.Item
-                  className="grid-login-input-password"
+                  className="grid-login-form-input-password"
                   label={translate('auth.labels.password')}
                   validateStatus={formItemValidateStatus(form, 'password')}
                   help={formItemHelp(form, 'password')}
@@ -187,7 +187,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                   )}
                 </Form.Item>
                 <Form.Item
-                  className="grid-login-input-confirmPassword"
+                  className="grid-login-form-input-confirmPassword"
                   label={translate('auth.labels.confirmPassword')}
                   validateStatus={formItemValidateStatus(form, 'confirmPassword')}
                   help={formItemHelp(form, 'confirmPassword')}
@@ -211,7 +211,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                   )}
                 </Form.Item>
               </Layout>
-              <Layout className="gird-login-buttons">
+              <Layout className="gird-login-form-buttons">
                 <Form.Item>
                   <Button htmlType="submit" type="primary" disabled={formHasErrors(getFieldsError())}>
                     {translate('auth.labels.login')}

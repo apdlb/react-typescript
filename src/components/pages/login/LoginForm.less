@@ -7,23 +7,33 @@
     'inputs'
     'buttons';
 
-  .grid-login-inputs {
+  .grid-login-form-inputs {
     grid-area: inputs;
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(24, 1fr);
     grid-template-rows: repeat(4, auto);
 
-    .grid-login-input-email {
-      grid-column: span 3;
+    .grid-login-form-input-name,
+    .grid-login-form-input-surname,
+    .grid-login-form-input-email,
+    .grid-login-form-input-gender,
+    .grid-login-form-input-dateBirth,
+    .grid-login-form-input-mobile {
+      grid-column: span 8;
     }
 
-    .grid-login-input-address {
-      grid-column: span 3;
+    .grid-login-form-input-address {
+      grid-column: span 24;
+    }
+
+    .grid-login-form-input-password,
+    .grid-login-form-input-confirmPassword {
+      grid-column: span 12;
     }
   }
 
-  .grid-login-buttons {
+  .grid-login-form-buttons {
     grid-area: buttons;
   }
 }
