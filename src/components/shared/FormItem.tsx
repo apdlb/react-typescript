@@ -1,9 +1,6 @@
-import { Input } from 'antd';
 import Form, { WrappedFormUtils } from 'antd/lib/form/Form';
 import React from 'react';
-import { Translate } from 'react-localize-redux';
 
-import useValidators from '../../hooks/validators';
 import { formItemHelp, formItemValidateStatus } from '../../utils/helpers';
 import InputValidator from './InputValidator';
 
