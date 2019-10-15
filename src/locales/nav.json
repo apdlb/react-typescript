@@ -1,5 +1,6 @@
 {
   "nav": {
-    "home": ["Home", "Inicio"]
+    "home": ["Home", "Inicio"],
+    "entities": ["Entities", "Entidades"]
   }
 }

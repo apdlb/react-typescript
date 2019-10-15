@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import Content from '../../shared/Content';
+import Home from './Home';
 
 interface MatchParams {}
 interface Props extends RouteComponentProps<MatchParams> {}
@@ -12,7 +13,7 @@ class HomeContainer extends React.Component<Props, State> {
   render(): React.ReactNode {
     return (
       <>
-        <Content body={'Hola'}></Content>
+        <Content body={<Home />}></Content>
       </>
     );
   }
