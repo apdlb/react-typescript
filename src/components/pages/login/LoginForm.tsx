@@ -6,7 +6,7 @@ import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
 
 import { formHasErrors } from '../../../utils/helpers';
-import FormItem from '../../shared/FormItem';
+import FormItem from '../../shared/forms/FormItem';
 
 interface Props {
   form: WrappedFormUtils;

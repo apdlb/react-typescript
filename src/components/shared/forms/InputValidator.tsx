@@ -1,7 +1,7 @@
 import { WrappedFormUtils } from 'antd/lib/form/Form';
 import React, { memo } from 'react';
 
-import useValidators from '../../hooks/useValidators';
+import useValidators from '../../../hooks/useValidators';
 
 interface Props {
   form: WrappedFormUtils;

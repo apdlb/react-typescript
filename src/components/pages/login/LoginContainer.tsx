@@ -24,7 +24,7 @@ class LoginContainer extends React.Component<Props, State> {
     this.props.form.validateFields();
   }
 
-  onSubmit = (e: any) => {
+  onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     this.props.form.validateFields((err: any, values: any) => {
