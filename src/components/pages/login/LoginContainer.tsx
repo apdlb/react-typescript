@@ -1,24 +1,25 @@
 import { Form } from 'antd';
 import React from 'react';
-import { getTranslate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { login } from '../../../redux/actions/AuthActions';
+import { login, logout } from '../../../redux/actions/AuthActions';
 import Content from '../../shared/Content';
 import LoginForm from './LoginForm';
 
 interface MatchParams {}
 interface Props extends RouteComponentProps<MatchParams> {
-  translate: object;
-  auth: object;
   form: any;
+  logout: Function;
   login: Function;
 }
 interface State {}
 
 class LoginContainer extends React.Component<Props, State> {
   componentDidMount() {
+    // If login is rendered, logout and clean local storage
+    this.props.logout();
+
     // To disabled submit button at the beginning.
     this.props.form.validateFields();
   }
@@ -44,16 +45,13 @@ class LoginContainer extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
-  translate: getTranslate(state.localize),
-  auth: state.auth
-});
+const mapStateToProps = (state: any) => ({});
 
 const WrappedLoginContainer = Form.create<Props>({ name: 'login' })(LoginContainer);
 
 export default withRouter(
   connect(
     mapStateToProps,
-    { login }
+    { logout, login }
   )(WrappedLoginContainer)
 );

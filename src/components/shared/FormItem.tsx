@@ -9,13 +9,14 @@ interface Props {
   className?: string;
   field: string;
   label: string | number | React.ReactNode;
-  formItemProps?: any;
+  initialValue?: any;
   validations?: string[];
+  formItemProps?: any;
   children: React.ReactNode;
 }
 
 const FormItem: React.FunctionComponent<Props> = props => {
-  const { form, className, field, label, validations, formItemProps, children } = props;
+  const { form, className, field, label, initialValue, validations, formItemProps, children } = props;
 
   return (
     <>
@@ -26,7 +27,7 @@ const FormItem: React.FunctionComponent<Props> = props => {
         help={formItemHelp(form, field)}
         {...formItemProps}
       >
-        <InputValidator form={form} field={field} label={label} validations={validations}>
+        <InputValidator form={form} field={field} label={label} initialValue={initialValue} validations={validations}>
           {children}
         </InputValidator>
       </Form.Item>

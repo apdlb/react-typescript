@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, RouteProps } from 'react-router';
 
+import useAuth from '../../hooks/useAuth';
 import PATHS from '../../utils/paths';
 
 interface Props extends RouteProps {
@@ -10,8 +11,9 @@ interface Props extends RouteProps {
 
 const NoAuthRouters: React.FunctionComponent<Props> = props => {
   const { auth, children, ...rest } = props;
+  const { isAuthenticated } = useAuth();
 
-  return <Route {...rest} render={() => (!auth.token ? children : <Redirect to={PATHS.HOME} />)} />;
+  return <Route {...rest} render={() => (!isAuthenticated ? children : <Redirect to={PATHS.HOME} />)} />;
 };
 
 const mapStateToProps = (state: any) => ({

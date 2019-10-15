@@ -1,18 +1,13 @@
 import { Layout } from 'antd';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { addTranslation, initialize } from 'react-localize-redux';
+import { addTranslation, initialize, LocalizeContextProps, withLocalize } from 'react-localize-redux';
 import { connect } from 'react-redux';
 
 import Routers from './components/routers';
-import Footer from './components/shared/Footer';
-import Header from './components/shared/Header';
 import CONSTANTS from './utils/constants';
 
-interface Props {
-  initialize: Function;
-  addTranslation: Function;
-}
+interface Props extends LocalizeContextProps {}
 interface State {}
 
 class App extends React.Component<Props, State> {
@@ -24,7 +19,7 @@ class App extends React.Component<Props, State> {
         languages: CONSTANTS.AVAILABLE_LANGUAGES,
         options: {
           renderToStaticMarkup,
-          defaultLanguage: localStorage.getItem('preferedLanguage'),
+          defaultLanguage: localStorage.getItem('preferedLanguage') || undefined,
           onMissingTranslation: () => ''
         }
       });
@@ -50,9 +45,7 @@ class App extends React.Component<Props, State> {
     return (
       <>
         <Layout className="grid-container">
-          <Header />
           <Routers />
-          <Footer />
         </Layout>
       </>
     );
@@ -62,4 +55,4 @@ class App extends React.Component<Props, State> {
 export default connect(
   null,
   { initialize, addTranslation }
-)(App);
+)(withLocalize(App));
