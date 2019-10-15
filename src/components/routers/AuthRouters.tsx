@@ -9,11 +9,11 @@ interface Props extends RouteProps {
 }
 interface State {}
 
-class NoAuthRouters extends React.Component<Props, State> {
+class AuthRouters extends React.Component<Props, State> {
   render(): React.ReactNode {
     const { auth, children, ...rest } = this.props;
 
-    return <Route {...rest} render={() => (!auth.token ? children : <Redirect to={PATHS.HOME} />)} />;
+    return <Route {...rest} render={() => (auth.token ? children : <Redirect to={PATHS.LOGIN} />)} />;
   }
 }
 
@@ -24,4 +24,4 @@ const mapStateToProps = (state: any) => ({
 export default connect(
   mapStateToProps,
   {}
-)(NoAuthRouters);
+)(AuthRouters);

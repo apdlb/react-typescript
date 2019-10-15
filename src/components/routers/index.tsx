@@ -1,18 +1,18 @@
 import React from 'react';
-import { RouteChildrenProps } from 'react-router';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
 import Login from '../pages/login/LoginContainer';
-import NoAuthRouter from './NoAuthRouters';
+import AuthRouters from './AuthRouters';
+import NoAuthRouters from './NoAuthRouters';
 
 interface Props {}
 
-const Routers: React.FunctionComponent<Props> = props => {
+const Routers: React.FunctionComponent<Props> = () => {
   return (
     <Router>
       <Switch>
-        <NoAuthRouter exact path="/login" component={Login} />
-        <NoAuthRouter exact path="/login/:id" component={Login} />
+        <NoAuthRouters exact path="/login" children={<Login />} />
+        <AuthRouters exact path="/home" children={<Login />} />
 
         <Route path="/" render={() => <Redirect to="/login" />} />
       </Switch>

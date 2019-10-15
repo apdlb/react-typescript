@@ -1,9 +1,8 @@
 import { Form } from 'antd';
-import { FormComponentProps } from 'antd/lib/form';
 import React from 'react';
 import { getTranslate } from 'react-localize-redux';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 import { login } from '../../../redux/actions/AuthActions';
 import Content from '../../shared/Content';
@@ -23,6 +22,7 @@ interface State {}
 class LoginContainer extends React.Component<Props, State> {
   componentDidMount() {
     // To disabled submit button at the beginning.
+    console.log(this.props.match.params);
     this.props.form.validateFields();
   }
 
@@ -54,7 +54,9 @@ const mapStateToProps = (state: any) => ({
 
 const WrappedLoginContainer = Form.create<Props>({ name: 'login' })(LoginContainer);
 
-export default connect(
-  mapStateToProps,
-  { login }
-)(WrappedLoginContainer);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { login }
+  )(WrappedLoginContainer)
+);
