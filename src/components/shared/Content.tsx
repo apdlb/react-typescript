@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
-import React from 'react';
+import React, { memo } from 'react';
 
 interface Props {
   body: React.ReactNode | FormComponentProps;
@@ -14,4 +14,4 @@ const Content: React.FunctionComponent<Props> = ({ body }) => {
   );
 };
 
-export default Content;
+export default memo(Content);

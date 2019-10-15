@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
 
 interface Props {}
@@ -19,4 +19,4 @@ const SideBar: React.FunctionComponent<Props> = () => {
   );
 };
 
-export default SideBar;
+export default memo(SideBar);

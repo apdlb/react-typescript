@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
 import Login from '../pages/login/LoginContainer';
@@ -20,4 +20,4 @@ const Routers: React.FunctionComponent<Props> = () => {
   );
 };
 
-export default Routers;
+export default memo(Routers);

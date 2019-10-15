@@ -8,9 +8,7 @@ import { login } from '../../../redux/actions/AuthActions';
 import Content from '../../shared/Content';
 import LoginForm from './LoginForm';
 
-interface MatchParams {
-  id?: string;
-}
+interface MatchParams {}
 interface Props extends RouteComponentProps<MatchParams> {
   translate: object;
   auth: object;
@@ -22,7 +20,6 @@ interface State {}
 class LoginContainer extends React.Component<Props, State> {
   componentDidMount() {
     // To disabled submit button at the beginning.
-    console.log(this.props.match.params);
     this.props.form.validateFields();
   }
 

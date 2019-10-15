@@ -1,5 +1,5 @@
 import { Layout, Menu } from 'antd';
-import React from 'react';
+import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
 
 interface Props {}
@@ -22,4 +22,4 @@ const Header: React.FunctionComponent<Props> = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

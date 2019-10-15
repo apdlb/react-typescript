@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import React from 'react';
+import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
 
 interface Props {}
@@ -18,4 +18,4 @@ const Footer: React.FunctionComponent<Props> = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);

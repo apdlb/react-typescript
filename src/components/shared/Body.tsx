@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import React from 'react';
+import React, { memo } from 'react';
 
 import Content from './Content';
 import Footer from './Footer';
@@ -21,4 +21,4 @@ const Body: React.FunctionComponent<Props> = ({ body }) => {
   );
 };
 
-export default Body;
+export default memo(Body);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, RouteProps } from 'react-router';
 
@@ -7,15 +7,12 @@ import PATHS from '../../utils/paths';
 interface Props extends RouteProps {
   auth: any;
 }
-interface State {}
 
-class NoAuthRouters extends React.Component<Props, State> {
-  render(): React.ReactNode {
-    const { auth, children, ...rest } = this.props;
+const NoAuthRouters: React.FunctionComponent<Props> = props => {
+  const { auth, children, ...rest } = props;
 
-    return <Route {...rest} render={() => (!auth.token ? children : <Redirect to={PATHS.HOME} />)} />;
-  }
-}
+  return <Route {...rest} render={() => (!auth.token ? children : <Redirect to={PATHS.HOME} />)} />;
+};
 
 const mapStateToProps = (state: any) => ({
   auth: state.auth
@@ -24,4 +21,4 @@ const mapStateToProps = (state: any) => ({
 export default connect(
   mapStateToProps,
   {}
-)(NoAuthRouters);
+)(memo(NoAuthRouters));

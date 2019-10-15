@@ -1,5 +1,5 @@
 import Form, { WrappedFormUtils } from 'antd/lib/form/Form';
-import React from 'react';
+import React, { memo } from 'react';
 
 import { formItemHelp, formItemValidateStatus } from '../../utils/helpers';
 import InputValidator from './InputValidator';
@@ -34,4 +34,4 @@ const FormItem: React.FunctionComponent<Props> = props => {
   );
 };
 
-export default FormItem;
+export default memo(FormItem);

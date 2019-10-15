@@ -2,7 +2,7 @@ import './LoginForm.less';
 
 import { Button, Form, Icon, Input, Layout } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
-import React from 'react';
+import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
 
 import { formHasErrors } from '../../../utils/helpers';
@@ -62,4 +62,4 @@ const LoginForm: React.FunctionComponent<Props> = props => {
   );
 };
 
-export default LoginForm;
+export default memo(LoginForm);
