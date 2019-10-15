@@ -1,29 +1,30 @@
 import { Form } from 'antd';
-import { FormComponentProps } from 'antd/lib/form';
-import React, { Component, ReactNode } from 'react';
-import { getTranslate } from 'react-localize-redux';
+import React from 'react';
 import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 
-import { login } from '../../../redux/actions/AuthActions';
+import { login, logout } from '../../../redux/actions/AuthActions';
 import Content from '../../shared/Content';
 import LoginForm from './LoginForm';
 
-interface Props extends FormComponentProps {
-  translate: object;
-  auth: object;
+interface MatchParams {}
+interface Props extends RouteComponentProps<MatchParams> {
   form: any;
-  login(values: any): any;
-  id?: string | number;
+  logout: Function;
+  login: Function;
 }
 interface State {}
 
-class LoginContainer extends Component<Props, State> {
+class LoginContainer extends React.Component<Props, State> {
   componentDidMount() {
+    // If login is rendered, logout and clean local storage
+    this.props.logout();
+
     // To disabled submit button at the beginning.
     this.props.form.validateFields();
   }
 
-  onSubmit = (e: any) => {
+  onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     this.props.form.validateFields((err: any, values: any) => {
@@ -33,7 +34,7 @@ class LoginContainer extends Component<Props, State> {
     });
   };
 
-  render(): ReactNode {
+  render(): React.ReactNode {
     const { form } = this.props;
 
     return (
@@ -44,14 +45,13 @@ class LoginContainer extends Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
-  translate: getTranslate(state.localize),
-  auth: state.auth
-});
+const mapStateToProps = (state: any) => ({});
 
 const WrappedLoginContainer = Form.create<Props>({ name: 'login' })(LoginContainer);
 
-export default connect(
-  mapStateToProps,
-  { login }
-)(WrappedLoginContainer);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { logout, login }
+  )(WrappedLoginContainer)
+);

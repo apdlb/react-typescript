@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
-import Login from '../pages/login/LoginContainer';
+import HomeContainer from '../pages/home/HomeContainer';
+import LoginContainer from '../pages/login/LoginContainer';
+import AuthRouters from './AuthRouters';
+import NoAuthRouters from './NoAuthRouters';
 
 interface Props {}
 
-const Routers: React.FunctionComponent<Props> = props => {
+const Routers: React.FunctionComponent<Props> = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Login} />
+        <NoAuthRouters exact path="/login" children={<LoginContainer />} />
+        <AuthRouters exact path="/home" children={<HomeContainer />} />
 
-        <Route path="/" render={() => <Redirect to="/" />} />
+        <Route path="/" render={() => <Redirect to="/login" />} />
       </Switch>
     </Router>
   );
 };
 
-export default Routers;
+export default memo(Routers);

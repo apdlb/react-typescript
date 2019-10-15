@@ -1,12 +1,12 @@
 import { Layout } from 'antd';
-import React, { ReactNode } from 'react';
+import React, { memo } from 'react';
 
 import Content from './Content';
 import Footer from './Footer';
 import Header from './Header';
 
 interface Props {
-  body: ReactNode;
+  body: React.ReactNode;
 }
 
 const Body: React.FunctionComponent<Props> = ({ body }) => {
@@ -21,4 +21,4 @@ const Body: React.FunctionComponent<Props> = ({ body }) => {
   );
 };
 
-export default Body;
+export default memo(Body);
