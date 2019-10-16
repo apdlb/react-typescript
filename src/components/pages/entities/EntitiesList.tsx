@@ -18,7 +18,26 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
   return (
     <Translate>
       {({ translate }) => {
-        const columns = [{}];
+        const columns = [
+          {
+            title: 'Name',
+            dataIndex: 'name',
+            sorter: true,
+            render: (name: any) => `${name.first} ${name.last}`,
+            width: '20%'
+          },
+          {
+            title: 'Gender',
+            dataIndex: 'gender',
+            sorter: true,
+            filters: [{ text: 'Male', value: 'male' }, { text: 'Female', value: 'female' }],
+            width: '20%'
+          },
+          {
+            title: 'Email',
+            dataIndex: 'email'
+          }
+        ];
 
         return (
           <>

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -16,17 +17,48 @@ interface State {}
 
 class EntitiesContainer extends React.Component<Props, State> {
   state = {
+    data: [],
+    pagination: {},
     loading: false
   };
 
   componentDidMount() {
+    this.fetch();
     this.props.cleanEntities();
     this.props.listEntities();
   }
 
   handleTableChange = (pagination: any, filters: any, sorter: any) => {
-    const { entities } = this.props;
-    const { paginateEntities } = entities;
+    const pager = { ...this.state.pagination } as any;
+    pager.current = pagination.current;
+    this.setState({
+      pagination: pager
+    });
+    const params = {
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+      ...filters
+    };
+    if (!_.isEmpty(sorter)) {
+      params.sort = sorter.field;
+      params.order = sorter.order;
+    }
+    this.fetch(params);
+    this.props.listEntities(params);
+  };
+
+  fetch = (params = {}) => {
+    console.log('params:', params);
+    this.setState({ loading: true });
+    const data = require('./data.json');
+    const pagination = { ...this.state.pagination } as any;
+    // Read total count from server
+    pagination.total = data.results.lenght;
+    this.setState({
+      loading: false,
+      data: data.results,
+      pagination
+    });
   };
 
   render(): React.ReactNode {
@@ -35,7 +67,13 @@ class EntitiesContainer extends React.Component<Props, State> {
     return (
       <>
         <Content
-          body={<EntitiesList entities={paginateEntities || {}} loadingTable={this.state.loading} handleTableChange={this.handleTableChange} />}
+          body={
+            <EntitiesList
+              entities={{ data: this.state.data, pagination: this.state.pagination }}
+              loadingTable={this.state.loading}
+              handleTableChange={this.handleTableChange}
+            />
+          }
         ></Content>
       </>
     );

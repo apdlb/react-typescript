@@ -52,6 +52,6 @@ export const apiFetch = ({ method, url, body, params, file = false, formData }: 
       if (r.error) {
         return Promise.reject(r.error);
       }
-      return r;
+      return (r = r.data);
     });
 };
