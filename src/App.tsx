@@ -39,6 +39,7 @@ class App extends React.Component<Props, State> {
     this.props.addTranslation(require('./locales/validations.json'));
     this.props.addTranslation(require('./locales/nav.json'));
     this.props.addTranslation(require('./locales/auth.json'));
+    this.props.addTranslation(require('./locales/entities.json'));
   };
 
   render(): React.ReactNode {

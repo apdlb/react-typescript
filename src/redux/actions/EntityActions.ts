@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { createAction } from 'redux-actions';
 
 import { apiFetch } from '../../services';
@@ -15,6 +16,14 @@ const generateFilter = ({ mode = 'paginate', page = 1, pageSize = CONSTANTS.PAGE
   if (sort && order) {
     query = `${query}&sort=${sort}`;
     query = `${query}&order=${CONSTANTS.ORDER_ANTD_TABLE_ORDER_MAP.get(order)}`;
+  }
+
+  if (!_.isEmpty(filters)) {
+    for (const key of Object.keys(filters)) {
+      if (filters[key]) {
+        query = `${query}&${key}=${filters[key]}`;
+      }
+    }
   }
 
   return query ? `?${query}` : query;

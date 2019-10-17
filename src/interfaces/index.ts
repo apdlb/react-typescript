@@ -1,3 +1,5 @@
+import { PaginationConfig, SorterResult, TableCurrentDataSource } from 'antd/lib/table';
+
 export interface IApiFetch {
   method: string;
   url: string;
@@ -11,4 +13,11 @@ export interface IErrorControl {
   props: any;
   err: any;
   redirect?: boolean;
+}
+
+export interface IPropsTable {
+  data: any[];
+  pagination?: PaginationConfig | false;
+  loading?: boolean;
+  handleChange?: any;
 }

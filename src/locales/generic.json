@@ -1,5 +1,9 @@
 {
   "generic": {
+    "labels": {
+      "filters": ["Filters", "Filtros"],
+      "filter": ["Filter", "Filtrar"]
+    },
     "error": ["An error has occurred", "Ha ocurrido un error"]
   }
 }

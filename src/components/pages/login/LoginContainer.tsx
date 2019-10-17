@@ -1,3 +1,5 @@
+import './Login.less';
+
 import { Form } from 'antd';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -45,9 +47,9 @@ class LoginContainer extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: any) => ({});
-
 const WrappedLoginContainer = Form.create<Props>({ name: 'login' })(LoginContainer);
+
+const mapStateToProps = (state: any) => ({});
 
 export default withRouter(
   connect(

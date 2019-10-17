@@ -1,5 +1,3 @@
-import './LoginForm.less';
-
 import { Button, Form, Icon, Input } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
 import React, { memo } from 'react';
