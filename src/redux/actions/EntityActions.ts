@@ -4,14 +4,12 @@ import { apiFetch } from '../../services';
 import { urlEntities } from '../../services/urls';
 import CONSTANTS from '../../utils/constants';
 
-const generateFilter = ({ mode = 'paginate', page, pageSize, sort, order, ...filters }: any) => {
+const generateFilter = ({ mode = 'paginate', page = 1, pageSize = CONSTANTS.PAGE_SIZE_10, sort, order, ...filters }: any) => {
   let query = '';
 
   if (mode === 'paginate') {
-    if (page && pageSize) {
-      query = `${query}&page=${page}`;
-      query = `${query}&pageSize=${pageSize}`;
-    }
+    query = `${query}&page=${page}`;
+    query = `${query}&pageSize=${pageSize}`;
   }
 
   if (sort && order) {

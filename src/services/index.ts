@@ -37,6 +37,10 @@ export const apiFetch = ({ method, url, body, params, file = false, formData }: 
   })
     .then(v => {
       if (v.status === 401) {
+        // Remove token from localStorage and reload page to go to login
+        localStorage.removeItem('jwtToken');
+        window.location.reload();
+
         let error = {
           error: {
             code: 401,

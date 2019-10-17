@@ -3,52 +3,48 @@ import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
 
 interface Props {
-  entities?: any;
-  loadingTable: boolean;
-  handleTableChange: any;
+  component: React.Component;
+  propsTable: any;
 }
 
 const EntitiesList: React.FunctionComponent<Props> = props => {
-  const {
-    entities: { data, pagination },
-    loadingTable,
-    handleTableChange
-  } = props;
+  const { propsTable } = props;
+  const { data, pagination, loading, handleChange, getColumnSearchProps } = propsTable;
 
   return (
     <Translate>
       {({ translate }) => {
         const columns = [
           {
-            title: 'Name',
-            dataIndex: 'name',
-            sorter: true,
-            render: (name: any) => `${name.first} ${name.last}`,
-            width: '20%'
+            title: 'Field 1',
+            dataIndex: 'field1',
+            sorter: true
           },
           {
-            title: 'Gender',
-            dataIndex: 'gender',
+            title: 'Field 2',
+            dataIndex: 'field2',
             sorter: true,
-            filters: [{ text: 'Male', value: 'male' }, { text: 'Female', value: 'female' }],
-            width: '20%'
+            ...getColumnSearchProps('field2')
           },
           {
-            title: 'Email',
-            dataIndex: 'email'
+            title: 'Field 3',
+            dataIndex: 'field3'
           }
         ];
 
         return (
           <>
-            <Table
-              columns={columns}
-              rowKey={(record: any) => record.login.uuid}
-              dataSource={data}
-              pagination={pagination}
-              loading={loadingTable}
-              onChange={handleTableChange}
-            />
+            <fieldset>
+              <legend>{translate('nav.entities')}</legend>
+              <Table
+                columns={columns}
+                rowKey={(record: any) => record._id}
+                dataSource={data}
+                pagination={pagination}
+                loading={loading}
+                onChange={handleChange}
+              />
+            </fieldset>
           </>
         );
       }}
