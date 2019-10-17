@@ -40,7 +40,7 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
               dataSource={propsTable.data}
               pagination={propsTable.pagination}
               loading={propsTable.loading}
-              onChange={propsTable.handleChange}
+              onChange={propsTable.handleOnChange}
             />
           </>
         );

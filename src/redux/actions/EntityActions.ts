@@ -33,3 +33,4 @@ export const cleanEntities = createAction(CONSTANTS.ACTION_CLEAN_ENTITIES, () =>
 export const listEntities = createAction(CONSTANTS.ACTION_LIST_ENTITIES, (filters = {}) =>
   apiFetch({ method: CONSTANTS.GET, url: urlEntities + generateFilter(filters) })
 );
+export const setListEntitiesParams = createAction(CONSTANTS.ACTION_SET_LIST_ENTITIES_PARAMS, (params: any) => params);

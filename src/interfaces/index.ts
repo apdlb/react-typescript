@@ -19,5 +19,5 @@ export interface IPropsTable {
   data: any[];
   pagination?: PaginationConfig | false;
   loading?: boolean;
-  handleChange?: any;
+  handleOnChange?: any;
 }

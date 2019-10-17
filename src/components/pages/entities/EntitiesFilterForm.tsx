@@ -8,10 +8,11 @@ import FormItem from '../../shared/forms/FormItem';
 interface Props {
   form: WrappedFormUtils;
   onSubmit(e: React.FormEvent<HTMLFormElement>): void;
+  onReset: React.MouseEventHandler<HTMLElement>;
 }
 
 const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
-  const { form, onSubmit } = props;
+  const { form, onSubmit, onReset } = props;
 
   return (
     <Translate>
@@ -55,7 +56,9 @@ const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
                       <Button htmlType="submit" type="primary">
                         {translate('generic.labels.filter')}
                       </Button>
-                      <Button type="link">{translate('generic.labels.reset')}</Button>
+                      <Button type="link" onClick={onReset}>
+                        {translate('generic.labels.reset')}
+                      </Button>
                     </Form.Item>
                   </div>
                 </Form>

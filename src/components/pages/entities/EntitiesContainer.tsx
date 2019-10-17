@@ -8,7 +8,7 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { cleanEntities, listEntities } from '../../../redux/actions/EntityActions';
+import { cleanEntities, listEntities, setListEntitiesParams } from '../../../redux/actions/EntityActions';
 import Content from '../../shared/Content';
 import EntitiesFilterForm from './EntitiesFilterForm';
 import EntitiesList from './EntitiesList';
@@ -18,6 +18,7 @@ interface Props extends RouteComponentProps<MatchParams> {
   form: any;
   cleanEntities: Function;
   listEntities: Function;
+  setListEntitiesParams: Function;
   entities?: any;
 }
 interface State {}
@@ -28,28 +29,37 @@ class EntitiesContainer extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.cleanEntities();
-    this.props.listEntities();
+    this.handleOnResetFilter();
   }
 
   handleOnSubmitFilter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const {
+      paginateEntitiesParams: { page, pageSize, sort, order, ...rest }
+    } = this.props.entities;
 
-    const params = this.props.form.getFieldsValue();
+    const params = { ...rest, ...this.props.form.getFieldsValue() };
     this.props.listEntities(params);
+    this.props.setListEntitiesParams(params);
   };
 
-  handleTableChange = (pagination: PaginationConfig, filters: any, sorter: any) => {
-    const params = {
-      page: pagination.current,
-      pageSize: pagination.pageSize,
-      ...filters
-    };
+  handleOnResetFilter = () => {
+    this.props.cleanEntities();
+    this.props.listEntities();
+  };
+
+  handleOnTableChange = (pagination: PaginationConfig, filters: any, sorter: any) => {
+    const { paginateEntitiesParams: params } = this.props.entities;
+
+    params.page = pagination.current;
+    params.pageSize = pagination.pageSize;
+
     if (!_.isEmpty(sorter)) {
       params.sort = sorter.field;
       params.order = sorter.order;
     }
     this.props.listEntities(params);
+    this.props.setListEntitiesParams(params);
   };
 
   render(): React.ReactNode {
@@ -71,13 +81,13 @@ class EntitiesContainer extends React.Component<Props, State> {
                 body={
                   <>
                     <Divider orientation="left">{translate('nav.entities')}</Divider>
-                    <EntitiesFilterForm form={form} onSubmit={this.handleOnSubmitFilter} />
+                    <EntitiesFilterForm form={form} onSubmit={this.handleOnSubmitFilter} onReset={this.handleOnResetFilter} />
                     <EntitiesList
                       propsTable={{
                         data: docs,
                         pagination,
                         loading: this.state.loading,
-                        handleChange: this.handleTableChange
+                        handleOnChange: this.handleOnTableChange
                       }}
                     />
                   </>
@@ -100,6 +110,6 @@ const mapStateToProps = (state: any) => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { cleanEntities, listEntities }
+    { cleanEntities, listEntities, setListEntitiesParams }
   )(WrappedEntitiesContainer)
 );
