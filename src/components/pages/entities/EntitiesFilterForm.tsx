@@ -21,7 +21,6 @@ const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
             <Collapse bordered={false}>
               <Collapse.Panel
                 key="filter"
-                showArrow={false}
                 header={
                   <>
                     <Divider orientation="left">
@@ -56,6 +55,7 @@ const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
                       <Button htmlType="submit" type="primary">
                         {translate('generic.labels.filter')}
                       </Button>
+                      <Button type="link">{translate('generic.labels.reset')}</Button>
                     </Form.Item>
                   </div>
                 </Form>

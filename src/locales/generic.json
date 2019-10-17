@@ -2,7 +2,8 @@
   "generic": {
     "labels": {
       "filters": ["Filters", "Filtros"],
-      "filter": ["Filter", "Filtrar"]
+      "filter": ["Filter", "Filtrar"],
+      "reset": ["Reset", "Limpiar"]
     },
     "error": ["An error has occurred", "Ha ocurrido un error"]
   }
