@@ -34,6 +34,13 @@ export const listEntities = createAction(CONSTANTS.ACTION_LIST_ENTITIES, (filter
   apiFetch({ method: CONSTANTS.GET, url: urlEntities + generateFilter(filters) })
 );
 export const setListEntitiesParams = createAction(CONSTANTS.ACTION_SET_LIST_ENTITIES_PARAMS, (params: any) => params);
+export const createEntity = createAction(CONSTANTS.NOTHING_ACTION, (body: any) => apiFetch({ method: CONSTANTS.POST, url: urlEntities, body }));
+export const getEntity = createAction(CONSTANTS.ACTION_GET_ENTITY, (id: string) =>
+  apiFetch({ method: CONSTANTS.GET, url: urlEntities, params: [id] })
+);
+export const updateEntity = createAction(CONSTANTS.NOTHING_ACTION, (id: string, body: any) =>
+  apiFetch({ method: CONSTANTS.PATCH, url: urlEntities, params: [id], body })
+);
 export const deleteEntity = createAction(CONSTANTS.NOTHING_ACTION, (id: string) =>
   apiFetch({ method: CONSTANTS.DELETE, url: urlEntities, params: [id] })
 );

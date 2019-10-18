@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 
 import PATHS from '../../utils/paths';
 import EntitiesContainer from '../pages/entities/EntitiesContainer';
+import EntityContainer from '../pages/entities/entity/EntityContainer';
 import HomeContainer from '../pages/home/HomeContainer';
 import LoginContainer from '../pages/login/LoginContainer';
 import AuthRouters from './AuthRouters';
@@ -17,6 +18,8 @@ const Routers: React.FunctionComponent<Props> = () => {
         <NoAuthRouters exact path={PATHS.LOGIN} children={<LoginContainer />} />
         <AuthRouters exact path={PATHS.HOME} children={<HomeContainer />} />
         <AuthRouters exact path={PATHS.ENTITIES} children={<EntitiesContainer />} />
+        <AuthRouters exact path={PATHS.ENTITIES_NEW} children={<EntityContainer />} />
+        <AuthRouters path={PATHS.ENTITIES_ID} children={<EntityContainer />} />
 
         <Route path="/" render={() => <Redirect to={PATHS.LOGIN} />} />
       </Switch>

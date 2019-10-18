@@ -98,6 +98,7 @@ class EntitiesContainer extends React.Component<Props, State> {
       pageSize: limit,
       total: totalDocs
     };
+
     return (
       <Translate>
         {({ translate }) => {

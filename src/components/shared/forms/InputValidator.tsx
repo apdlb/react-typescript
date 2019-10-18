@@ -6,6 +6,7 @@ import useValidators from '../../../hooks/useValidators';
 interface Props {
   form: WrappedFormUtils;
   field: string;
+  valuePropName?: string;
   label: string | number | React.ReactNode;
   initialValue?: any;
   validations?: string[];
@@ -13,13 +14,14 @@ interface Props {
 }
 
 const InputValidator: React.FunctionComponent<Props> = props => {
-  const { form, field, label, initialValue, validations, children } = props;
+  const { form, field, valuePropName = 'value', label, initialValue, validations, children } = props;
   const validators = useValidators();
   const { getFieldDecorator } = form;
 
   return (
     <>
       {getFieldDecorator(field, {
+        valuePropName,
         initialValue,
         rules: [
           {

@@ -1,4 +1,4 @@
-import { Layout } from 'antd';
+import { Divider, Layout } from 'antd';
 import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
 
@@ -10,7 +10,10 @@ const Footer: React.FunctionComponent<Props> = () => {
       {({ translate }) => {
         return (
           <>
-            <Layout.Footer className="grid-footer">MERN Template with Typescript ©2019 Created by Apaez</Layout.Footer>
+            <Layout.Footer className="grid-footer">
+              <Divider />
+              MERN Template with Typescript ©2019 Created by Apaez
+            </Layout.Footer>
           </>
         );
       }}

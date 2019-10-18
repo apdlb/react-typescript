@@ -8,7 +8,8 @@
       "edit": ["Edit", "Editar"],
       "delete": ["Delete", "Eliminar"],
       "yes": ["Yes", "Sí"],
-      "no": ["No", "No"]
+      "no": ["No", "No"],
+      "save": ["Save", "Guardar"]
     },
     "error": ["An error has occurred", "Ha ocurrido un error"]
   }

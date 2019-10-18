@@ -1,6 +1,8 @@
 {
   "entities": {
     "labels": {
+      "newEntity": ["New Entity", "Nueva Entidad"],
+      "updateEntity": ["Update Entity", "Actualizar Entidad"],
       "field1": ["Field 1", "Campo 1"],
       "field2": ["Field 2", "Campo 2"],
       "field3": ["Field 2", "Campo 3"]
