@@ -1,14 +1,14 @@
 import './Entities.less';
 
-import { Divider, Form } from 'antd';
+import { Divider, Form, Modal } from 'antd';
 import { PaginationConfig } from 'antd/lib/table';
 import _ from 'lodash';
 import React from 'react';
-import { Translate } from 'react-localize-redux';
+import { getTranslate, Translate, TranslateFunction } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { cleanEntities, listEntities, setListEntitiesParams } from '../../../redux/actions/EntityActions';
+import { cleanEntities, deleteEntity, listEntities, setListEntitiesParams } from '../../../redux/actions/EntityActions';
 import Content from '../../shared/Content';
 import EntitiesFilterForm from './EntitiesFilterForm';
 import EntitiesList from './EntitiesList';
@@ -16,9 +16,11 @@ import EntitiesList from './EntitiesList';
 interface MatchParams {}
 interface Props extends RouteComponentProps<MatchParams> {
   form: any;
+  translate: TranslateFunction;
   cleanEntities: Function;
   listEntities: Function;
   setListEntitiesParams: Function;
+  deleteEntity: Function;
   entities?: any;
 }
 interface State {}
@@ -32,6 +34,10 @@ class EntitiesContainer extends React.Component<Props, State> {
     this.handleOnResetFilter();
   }
 
+  loadEntities(params?: any) {
+    this.props.listEntities(params);
+  }
+
   handleOnSubmitFilter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const {
@@ -39,13 +45,13 @@ class EntitiesContainer extends React.Component<Props, State> {
     } = this.props.entities;
 
     const params = { ...rest, ...this.props.form.getFieldsValue() };
-    this.props.listEntities(params);
+    this.loadEntities(params);
     this.props.setListEntitiesParams(params);
   };
 
   handleOnResetFilter = () => {
     this.props.cleanEntities();
-    this.props.listEntities();
+    this.loadEntities();
   };
 
   handleOnTableChange = (pagination: PaginationConfig, filters: any, sorter: any) => {
@@ -58,8 +64,28 @@ class EntitiesContainer extends React.Component<Props, State> {
       params.sort = sorter.field;
       params.order = sorter.order;
     }
-    this.props.listEntities(params);
+    this.loadEntities(params);
     this.props.setListEntitiesParams(params);
+  };
+
+  deleteRecord = (id: string) => {
+    const { paginateEntitiesParams: params } = this.props.entities;
+
+    this.props.deleteEntity(id);
+    this.loadEntities(params);
+  };
+
+  handleOnClickDelete = (id: string) => {
+    Modal.confirm({
+      title: this.props.translate('generic.labels.delete'),
+      content: this.props.translate('entities.modals.delete'),
+      okText: this.props.translate('generic.labels.yes'),
+      cancelText: this.props.translate('generic.labels.no'),
+      onOk: () => {
+        return this.deleteRecord(id);
+      },
+      onCancel: () => {}
+    });
   };
 
   render(): React.ReactNode {
@@ -89,6 +115,7 @@ class EntitiesContainer extends React.Component<Props, State> {
                         loading: this.state.loading,
                         handleOnChange: this.handleOnTableChange
                       }}
+                      onClickDelete={this.handleOnClickDelete}
                     />
                   </>
                 }
@@ -104,12 +131,13 @@ class EntitiesContainer extends React.Component<Props, State> {
 const WrappedEntitiesContainer = Form.create<Props>({ name: 'entitiesFilter' })(EntitiesContainer);
 
 const mapStateToProps = (state: any) => ({
+  translate: getTranslate(state.localize),
   entities: state.entities
 });
 
 export default withRouter(
   connect(
     mapStateToProps,
-    { cleanEntities, listEntities, setListEntitiesParams }
+    { cleanEntities, listEntities, setListEntitiesParams, deleteEntity }
   )(WrappedEntitiesContainer)
 );

@@ -3,7 +3,12 @@
     "labels": {
       "filters": ["Filters", "Filtros"],
       "filter": ["Filter", "Filtrar"],
-      "reset": ["Reset", "Limpiar"]
+      "reset": ["Reset", "Limpiar"],
+      "actions": ["Actions", "Acciones"],
+      "edit": ["Edit", "Editar"],
+      "delete": ["Delete", "Eliminar"],
+      "yes": ["Yes", "Sí"],
+      "no": ["No", "No"]
     },
     "error": ["An error has occurred", "Ha ocurrido un error"]
   }

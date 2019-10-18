@@ -34,3 +34,6 @@ export const listEntities = createAction(CONSTANTS.ACTION_LIST_ENTITIES, (filter
   apiFetch({ method: CONSTANTS.GET, url: urlEntities + generateFilter(filters) })
 );
 export const setListEntitiesParams = createAction(CONSTANTS.ACTION_SET_LIST_ENTITIES_PARAMS, (params: any) => params);
+export const deleteEntity = createAction(CONSTANTS.NOTHING_ACTION, (id: string) =>
+  apiFetch({ method: CONSTANTS.DELETE, url: urlEntities, params: [id] })
+);

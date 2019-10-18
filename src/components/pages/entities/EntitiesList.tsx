@@ -1,15 +1,19 @@
-import { Icon, Table } from 'antd';
+import { Button, Icon, Table } from 'antd';
+import _ from 'lodash';
 import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
+import { Link } from 'react-router-dom';
 
 import { IPropsTable } from '../../../interfaces';
+import PATHS from '../../../utils/paths';
 
 interface Props {
   propsTable: IPropsTable;
+  onClickDelete: Function;
 }
 
 const EntitiesList: React.FunctionComponent<Props> = props => {
-  const { propsTable } = props;
+  const { propsTable, onClickDelete } = props;
 
   return (
     <Translate>
@@ -29,6 +33,12 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
             title: translate('entities.labels.field3'),
             dataIndex: 'field3',
             render: (field3: boolean) => <Icon type={field3 ? 'check' : 'cross'} />
+          },
+          {
+            title: translate('generic.labels.actions'),
+            render: (record: any) => renderActions({ record, onClickDelete }),
+            width: '10%',
+            align: 'center' as const
           }
         ];
 
@@ -42,6 +52,25 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
               loading={propsTable.loading}
               onChange={propsTable.handleOnChange}
             />
+          </>
+        );
+      }}
+    </Translate>
+  );
+};
+
+const renderActions = ({ record, onClickDelete }: any) => {
+  return (
+    <Translate>
+      {({ translate }) => {
+        return (
+          <>
+            <Link to={_.replace(PATHS.ENTITIES_ID, ':id', record._id)}>
+              <Icon type="edit" title={translate('generic.labels.edit') as string} />
+            </Link>
+            <Button type="link" onClick={() => onClickDelete(record._id)} title={translate('generic.labels.delete') as string}>
+              <Icon type="delete" />
+            </Button>
           </>
         );
       }}

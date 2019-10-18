@@ -20,7 +20,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
       {({ translate }) => {
         return (
           <>
-            <div className="centred">
+            <div className="centred" style={{ height: '100%' }}>
               <Form className="grid-login-form" onSubmit={onSubmit} layout="vertical">
                 <div className="grid-login-form-inputs">
                   <FormItem
