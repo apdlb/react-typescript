@@ -51,6 +51,7 @@ class EntitiesContainer extends React.Component<Props, State> {
 
   handleOnResetFilter = () => {
     this.props.cleanEntities();
+    this.props.form.resetFields();
     this.loadEntities();
   };
 
