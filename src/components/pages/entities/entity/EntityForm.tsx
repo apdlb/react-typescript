@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input } from 'antd';
+import { Button, Checkbox, Input, InputNumber } from 'antd';
 import Form, { WrappedFormUtils } from 'antd/lib/form/Form';
 import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
@@ -43,7 +43,7 @@ const EntityForm: React.FunctionComponent<Props> = props => {
                   initialValue={initialValues.field2}
                   rules={[{ type: 'number', message: translate('validations.number', { input: translate('entities.labels.field2') }) }]}
                 >
-                  <Input placeholder={`${translate('entities.labels.field2')}`} />
+                  <InputNumber placeholder={`${translate('entities.labels.field2')}`} />
                 </FormItem>
 
                 <FormItem

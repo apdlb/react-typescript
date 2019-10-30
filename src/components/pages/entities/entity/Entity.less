@@ -7,7 +7,7 @@
     'inputs'
     'buttons';
 
-  .grid-entity-form-inputs {
+  &-inputs {
     grid-area: inputs;
 
     display: grid;
@@ -16,7 +16,7 @@
     grid-auto-rows: max-content;
   }
 
-  .grid-entity-form-buttons {
+  &-buttons {
     grid-area: buttons;
 
     display: flex;
@@ -27,7 +27,7 @@
 
 @media (max-width: 768px) {
   .grid-entity-form {
-    .grid-entity-form-inputs {
+    &-inputs {
       grid-area: inputs;
 
       display: grid;

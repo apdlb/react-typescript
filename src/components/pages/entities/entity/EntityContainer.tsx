@@ -78,7 +78,7 @@ class EntityContainer extends React.Component<Props, State> {
                     </PageHeader>
                   </>
                 }
-              ></Content>
+              />
             </>
           );
         }}

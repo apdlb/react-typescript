@@ -41,7 +41,7 @@ class LoginContainer extends React.Component<Props, State> {
 
     return (
       <>
-        <Content body={<LoginForm form={form} onSubmit={this.onSubmit} />}></Content>
+        <Content body={<LoginForm form={form} onSubmit={this.onSubmit} />} />
       </>
     );
   }

@@ -71,9 +71,7 @@ const renderActions = ({ record, onClickDelete }: any) => {
             <Link to={_.replace(PATHS.ENTITIES_ID, ':id', record._id)}>
               <Icon type="edit" title={translate('generic.labels.edit') as string} />
             </Link>
-            <Button type="link" onClick={() => onClickDelete(record._id)} title={translate('generic.labels.delete') as string}>
-              <Icon type="delete" />
-            </Button>
+            <Button type="link" icon="delete" onClick={() => onClickDelete(record._id)} title={translate('generic.labels.delete') as string} />
           </>
         );
       }}

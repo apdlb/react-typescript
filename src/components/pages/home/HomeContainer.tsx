@@ -13,7 +13,7 @@ class HomeContainer extends React.Component<Props, State> {
   render(): React.ReactNode {
     return (
       <>
-        <Content body={<Home />}></Content>
+        <Content body={<Home />} />
       </>
     );
   }

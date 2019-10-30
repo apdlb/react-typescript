@@ -72,8 +72,9 @@ class EntitiesContainer extends React.Component<Props, State> {
   deleteRecord = (id: string) => {
     const { paginateEntitiesParams: params } = this.props.entities;
 
-    this.props.deleteEntity(id);
-    this.loadEntities(params);
+    this.props.deleteEntity(id).then(() => {
+      this.loadEntities(params);
+    });
   };
 
   handleOnClickDelete = (id: string) => {
@@ -121,7 +122,7 @@ class EntitiesContainer extends React.Component<Props, State> {
                     />
                   </>
                 }
-              ></Content>
+              />
             </>
           );
         }}
