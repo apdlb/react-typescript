@@ -1,6 +1,7 @@
 import Form, { WrappedFormUtils } from 'antd/lib/form/Form';
 import React, { memo } from 'react';
 
+import { IMetadataObj } from '../../../interfaces';
 import { formItemHelp, formItemValidateStatus } from '../../../utils/helpers';
 import InputValidator from './InputValidator';
 
@@ -11,13 +12,14 @@ interface Props {
   valuePropName?: string;
   label: string | number | React.ReactNode;
   initialValue?: any;
+  rules?: IMetadataObj[];
   validations?: string[];
   formItemProps?: any;
   children: React.ReactNode;
 }
 
 const FormItem: React.FunctionComponent<Props> = props => {
-  const { form, className, field, valuePropName, label, initialValue, validations, formItemProps, children } = props;
+  const { form, className, field, valuePropName, label, initialValue, rules, validations, formItemProps, children } = props;
 
   return (
     <>
@@ -28,7 +30,15 @@ const FormItem: React.FunctionComponent<Props> = props => {
         help={formItemHelp(form, field)}
         {...formItemProps}
       >
-        <InputValidator form={form} field={field} valuePropName={valuePropName} label={label} initialValue={initialValue} validations={validations}>
+        <InputValidator
+          form={form}
+          field={field}
+          valuePropName={valuePropName}
+          label={label}
+          initialValue={initialValue}
+          rules={rules}
+          validations={validations}
+        >
           {children}
         </InputValidator>
       </Form.Item>

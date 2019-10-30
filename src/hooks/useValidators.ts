@@ -6,11 +6,6 @@ const useValidators = () => {
   const props = store.getState();
   const translate = getTranslate(props.localize);
 
-  const required = (callback: Function, value: string, label?: string | number | React.ReactNode) => {
-    if (!value) {
-      callback(translate('validations.required', { input: label }));
-    }
-  };
   const email = (callback: Function, value: string, label?: string | number | React.ReactNode) => {
     if (
       // eslint-disable-next-line
@@ -23,7 +18,6 @@ const useValidators = () => {
   };
 
   return {
-    required,
     email
   };
 };

@@ -1,12 +1,7 @@
 import { PaginationConfig } from 'antd/lib/table';
 
-interface IMetadata {
-  key: string;
-  value: any;
-}
-
 export interface IMetadataObj {
-  [key: string]: IMetadata;
+  [key: string]: any;
 }
 
 export interface IApiFetch {

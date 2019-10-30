@@ -29,8 +29,8 @@ const EntityForm: React.FunctionComponent<Props> = props => {
                   className="grid-entity-form-input-field1"
                   field="field1"
                   label={translate('entities.labels.field1')}
-                  validations={['required']}
                   initialValue={initialValues.field1}
+                  rules={[{ required: true, message: translate('validations.required', { input: translate('entities.labels.field1') }) }]}
                 >
                   <Input placeholder={`${translate('entities.labels.field1')}`} />
                 </FormItem>
@@ -41,6 +41,7 @@ const EntityForm: React.FunctionComponent<Props> = props => {
                   field="field2"
                   label={translate('entities.labels.field2')}
                   initialValue={initialValues.field2}
+                  rules={[{ type: 'number', message: translate('validations.number', { input: translate('entities.labels.field2') }) }]}
                 >
                   <Input placeholder={`${translate('entities.labels.field2')}`} />
                 </FormItem>

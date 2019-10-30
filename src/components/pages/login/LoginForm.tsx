@@ -28,7 +28,8 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                     className="grid-login-form-input-email"
                     field="email"
                     label={translate('auth.labels.email')}
-                    validations={['required', 'email']}
+                    rules={[{ required: true, message: translate('validations.required', { input: translate('auth.labels.email') }) }]}
+                    validations={['email']}
                   >
                     <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={`${translate('auth.labels.email')}`} />
                   </FormItem>
@@ -38,7 +39,7 @@ const LoginForm: React.FunctionComponent<Props> = props => {
                     className="grid-login-form-input-password"
                     field="password"
                     label={translate('auth.labels.password')}
-                    validations={['required']}
+                    rules={[{ required: true, message: translate('validations.required', { input: translate('auth.labels.password') }) }]}
                   >
                     <Input.Password
                       prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}

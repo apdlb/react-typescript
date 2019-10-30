@@ -32,7 +32,7 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
           {
             title: translate('entities.labels.field3'),
             dataIndex: 'field3',
-            render: (field3: boolean) => <Icon type={field3 ? 'check' : 'cross'} />
+            render: (field3: boolean) => <Icon type={field3 ? 'check' : 'close'} />
           },
           {
             title: translate('generic.labels.actions'),
@@ -52,6 +52,9 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
               loading={propsTable.loading}
               onChange={propsTable.handleOnChange}
             />
+            <Link to={PATHS.ENTITIES_NEW}>
+              <Button className="float" type="primary" shape="circle" icon="plus" />
+            </Link>
           </>
         );
       }}
