@@ -26,8 +26,15 @@ interface State {}
 
 class EntityContainer extends React.Component<Props, State> {
   componentDidMount() {
-    // To disabled submit button at the beginning.
-    this.props.form.validateFields();
+    if (this.props.match.params.id) {
+      this.props.getEntity(this.props.match.params.id).then(() => {
+        // To disabled submit button at the beginning.
+        this.props.form.validateFields();
+      });
+    } else {
+      // To disabled submit button at the beginning.
+      this.props.form.validateFields();
+    }
   }
 
   handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,7 +74,7 @@ class EntityContainer extends React.Component<Props, State> {
                       title={_.isEmpty(entity) ? translate('entities.labels.newEntity') : translate('entities.labels.updateEntity')}
                       onBack={() => this.props.history.push(PATHS.ENTITIES)}
                     >
-                      <EntityForm form={form} onSubmit={this.handleOnSubmit} />
+                      <EntityForm form={form} onSubmit={this.handleOnSubmit} initialValues={entity} />
                     </PageHeader>
                   </>
                 }

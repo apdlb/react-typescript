@@ -3,16 +3,18 @@ import Form, { WrappedFormUtils } from 'antd/lib/form/Form';
 import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
 
+import { IMetadataObj } from '../../../../interfaces';
 import { formHasErrors } from '../../../../utils/helpers';
 import FormItem from '../../../shared/forms/FormItem';
 
 interface Props {
   form: WrappedFormUtils;
   onSubmit(e: React.FormEvent<HTMLFormElement>): void;
+  initialValues?: IMetadataObj;
 }
 
 const EntityForm: React.FunctionComponent<Props> = props => {
-  const { form, onSubmit } = props;
+  const { form, onSubmit, initialValues = {} } = props;
   const { getFieldsError } = form;
 
   return (
@@ -28,11 +30,18 @@ const EntityForm: React.FunctionComponent<Props> = props => {
                   field="field1"
                   label={translate('entities.labels.field1')}
                   validations={['required']}
+                  initialValue={initialValues.field1}
                 >
                   <Input placeholder={`${translate('entities.labels.field1')}`} />
                 </FormItem>
 
-                <FormItem form={form} className="grid-entity-form-input-field2" field="field2" label={translate('entities.labels.field2')}>
+                <FormItem
+                  form={form}
+                  className="grid-entity-form-input-field2"
+                  field="field2"
+                  label={translate('entities.labels.field2')}
+                  initialValue={initialValues.field2}
+                >
                   <Input placeholder={`${translate('entities.labels.field2')}`} />
                 </FormItem>
 
@@ -42,6 +51,7 @@ const EntityForm: React.FunctionComponent<Props> = props => {
                   field="field3"
                   valuePropName="checked"
                   label={translate('entities.labels.field3')}
+                  initialValue={initialValues.field3}
                 >
                   <Checkbox />
                 </FormItem>

@@ -1,4 +1,13 @@
-import { PaginationConfig, SorterResult, TableCurrentDataSource } from 'antd/lib/table';
+import { PaginationConfig } from 'antd/lib/table';
+
+interface IMetadata {
+  key: string;
+  value: any;
+}
+
+export interface IMetadataObj {
+  [key: string]: IMetadata;
+}
 
 export interface IApiFetch {
   method: string;
