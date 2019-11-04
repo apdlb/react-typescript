@@ -41,7 +41,7 @@ export const apiFetch = ({ method, url, body, params, file = false, formData }: 
         localStorage.removeItem('jwtToken');
         window.location.reload();
 
-        let error = {
+        const error = {
           error: {
             code: 401,
             message: 'Unhautorized'
