@@ -1,3 +1,4 @@
+import HttpStatus from 'http-status-codes';
 import _ from 'lodash';
 
 import { IApiFetch } from '../interfaces';
@@ -36,18 +37,20 @@ export const apiFetch = ({ method, url, body, params, file = false, formData }: 
     body: !file ? JSON.stringify(body) : formData
   })
     .then(v => {
-      if (v.status === 401) {
+      if (v.status === HttpStatus.UNAUTHORIZED) {
         // Remove token from localStorage and reload page to go to login
         localStorage.removeItem('jwtToken');
         window.location.reload();
 
         const error = {
           error: {
-            code: 401,
+            code: HttpStatus.UNAUTHORIZED,
             message: 'Unhautorized'
           }
         };
         return error;
+      } else if (v.status === HttpStatus.NO_CONTENT) {
+        return {} as any;
       } else {
         return v.json();
       }

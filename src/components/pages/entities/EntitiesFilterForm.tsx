@@ -1,4 +1,4 @@
-import { Button, Collapse, Divider, Icon, Input } from 'antd';
+import { Button, Collapse, Divider, Icon, Input, InputNumber } from 'antd';
 import Form, { WrappedFormUtils } from 'antd/lib/form/Form';
 import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
@@ -47,8 +47,9 @@ const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
                       className="grid-entities-filter-form-input-field2"
                       field="field2"
                       label={translate('entities.labels.field2')}
+                      rules={[{ type: 'number', message: translate('validations.number', { input: translate('entities.labels.field2') }) }]}
                     >
-                      <Input placeholder={`${translate('entities.labels.field2')}`} />
+                      <InputNumber placeholder={`${translate('entities.labels.field2')}`} />
                     </FormItem>
                   </div>
                   <div className="grid-entities-filter-form-buttons">

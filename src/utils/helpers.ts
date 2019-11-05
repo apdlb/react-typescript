@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import HttpStatus from 'http-status-codes';
 
 import { IErrorControl } from '../interfaces';
 
@@ -9,7 +10,7 @@ export const errorControl = ({ props, err, redirect = false }: IErrorControl) =>
   // message = err.message;
   // details = err.details;
 
-  if (code === 401) {
+  if (code === HttpStatus.UNAUTHORIZED) {
     if (props.auth && props.auth.tfa && props.auth.tfa.refresh_token) {
       // TODO refresh token
     } else {
