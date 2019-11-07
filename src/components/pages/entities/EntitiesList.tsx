@@ -1,9 +1,12 @@
+import { useApolloClient, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { Button, Icon, Table } from 'antd';
+import { PaginationConfig } from 'antd/lib/table';
 import _ from 'lodash';
 import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
 import { Link } from 'react-router-dom';
 
+import { GET_ENTITIES_PAGINATED } from '../../../graphql/entities';
 import { IPropsTable } from '../../../interfaces';
 import PATHS from '../../../utils/paths';
 
@@ -14,6 +17,28 @@ interface Props {
 
 const EntitiesList: React.FunctionComponent<Props> = props => {
   const { propsTable, onClickDelete } = props;
+  const client = useApolloClient();
+  const [getEntitiesPaginated] = useLazyQuery(GET_ENTITIES_PAGINATED);
+  const { data = {} as any } = useQuery(GET_ENTITIES_PAGINATED);
+  const { getEntitiesPaginated: { docs, page, limit, totalDocs } = {} as any, paginateEntitiesParams: params } = data;
+  const pagination = {
+    current: page,
+    pageSize: limit,
+    total: totalDocs
+  };
+
+  const onTableChange = (pagination: PaginationConfig, filters: any, sorter: any) => {
+    params.page = pagination.current;
+    params.pageSize = pagination.pageSize;
+
+    if (!_.isEmpty(sorter)) {
+      params.sort = sorter.field;
+      params.order = sorter.order;
+    }
+
+    getEntitiesPaginated();
+    client.writeData({ data: { paginateEntitiesParams: params } });
+  };
 
   return (
     <Translate>
@@ -47,10 +72,10 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
             <Table
               columns={columns}
               rowKey={(record: any) => record._id}
-              dataSource={propsTable.data}
-              pagination={propsTable.pagination}
+              dataSource={docs}
+              pagination={pagination}
               loading={propsTable.loading}
-              onChange={propsTable.handleOnChange}
+              onChange={onTableChange}
             />
             <Link to={PATHS.ENTITIES_NEW}>
               <Button className="float" type="primary" shape="circle" icon="plus" />

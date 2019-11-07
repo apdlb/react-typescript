@@ -31,7 +31,7 @@ class EntitiesContainer extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.handleOnResetFilter();
+    // this.handleOnResetFilter();
   }
 
   loadEntities(params?: any) {
@@ -92,9 +92,7 @@ class EntitiesContainer extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     const { form, entities } = this.props;
-    const {
-      paginateEntities: { docs, page, limit, totalDocs }
-    } = entities;
+    const { paginateEntities: { docs, page, limit, totalDocs } = {} as any } = entities;
     const pagination = {
       current: page,
       pageSize: limit,
