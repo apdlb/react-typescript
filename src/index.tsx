@@ -16,7 +16,7 @@ import * as serviceWorker from './serviceWorker';
 const cache = new InMemoryCache();
 const client = new ApolloClient({
   cache,
-  uri: 'http://localhost:3002/graphql',
+  uri: "http://localhost:3002/graphql",
   typeDefs,
   resolvers
 });
@@ -25,9 +25,9 @@ cache.writeData({
     paginateEntitiesParams: {
       page: 1,
       pageSize: 10,
-      sort: '_id',
-      order: 'asc',
-      __typename: 'PaginateEntitiesParams'
+      sort: "_id",
+      order: "asc",
+      __typename: "PaginateEntitiesParams"
     } as any
   }
 });
@@ -43,7 +43,7 @@ const rootComponent = (
     </PersistGate>
   </Provider>
 );
-ReactDOM.render(rootComponent, document.getElementById('root'));
+ReactDOM.render(rootComponent, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
-import GraphQLJSON from 'graphql-type-json';
 
 export const typeDefs = gql`
-  type Paginate {
+  extend type Paginate {
+    __typename: String
     page: Int
     pageSize: Int
     sort: String
@@ -16,6 +16,4 @@ export const typeDefs = gql`
   }
 `;
 
-export const resolvers = {
-  JSON: GraphQLJSON
-};
+export const resolvers = {};
