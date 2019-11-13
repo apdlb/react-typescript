@@ -1,8 +1,8 @@
-import { useApolloClient, useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { useApolloClient, useLazyQuery } from '@apollo/react-hooks';
 import { Button, Icon, Table } from 'antd';
 import { PaginationConfig } from 'antd/lib/table';
 import _ from 'lodash';
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Translate } from 'react-localize-redux';
 import { Link } from 'react-router-dom';
 
@@ -18,37 +18,48 @@ interface Props {
 const EntitiesList: React.FunctionComponent<Props> = props => {
   const { propsTable, onClickDelete } = props;
   const client = useApolloClient();
-  const [getEntitiesPaginated] = useLazyQuery(GET_ENTITIES_PAGINATED);
-  const { data = {} as any } = useQuery(GET_ENTITIES_PAGINATED, {
-    variables: { filter: { page: 1, pageSize: 5 } }
-  });
+
+  const [
+    getEntitiesPaginated,
+    { data: dataLazyQuery = {} as any }
+  ] = useLazyQuery(GET_ENTITIES_PAGINATED);
+
   const {
     getEntitiesPaginated: { docs, page, limit, totalDocs } = {} as any,
-    paginateEntitiesParams: { __typename, ...params } = {} as any
-  } = data;
+    paginateEntitiesParams: { __typename, ...restParams } = {} as any
+  } = dataLazyQuery;
+
+  const [params, setParams] = useState({ page: 1, pageSize: 5 } as any);
+
+  useEffect(() => {
+    getEntitiesPaginated({ variables: { filter: params } });
+  }, [params, getEntitiesPaginated]);
+
   const pagination = {
     current: page,
     pageSize: limit,
     total: totalDocs
   };
-  console.log(docs);
+
   const onTableChange = (
     pagination: PaginationConfig,
     filters: any,
     sorter: any
   ) => {
-    params.page = pagination.current;
-    params.pageSize = pagination.pageSize;
+    const newParams = Object.assign({}, restParams);
+    newParams.page = pagination.current;
+    newParams.pageSize = pagination.pageSize;
 
     if (!_.isEmpty(sorter)) {
-      params.sort = sorter.field;
-      params.order = sorter.order;
+      newParams.sort = sorter.field;
+      newParams.order = sorter.order;
     }
 
-    getEntitiesPaginated({ variables: { filter: params } });
+    getEntitiesPaginated({ variables: { filter: newParams } });
     client.writeData({
-      data: { paginateEntitiesParams: { ...params, __typename } }
+      data: { paginateEntitiesParams: { ...newParams, __typename } }
     });
+    setParams(newParams);
   };
 
   return (
