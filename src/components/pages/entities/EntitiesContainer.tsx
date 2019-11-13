@@ -1,6 +1,6 @@
 import './Entities.less';
 
-import { Divider, Form, Modal } from 'antd';
+import { Divider, Modal } from 'antd';
 import { PaginationConfig } from 'antd/lib/table';
 import _ from 'lodash';
 import React from 'react';
@@ -15,7 +15,6 @@ import EntitiesList from './EntitiesList';
 
 interface MatchParams {}
 interface Props extends RouteComponentProps<MatchParams> {
-  form: any;
   translate: TranslateFunction;
   cleanEntities: Function;
   listEntities: Function;
@@ -38,24 +37,28 @@ class EntitiesContainer extends React.Component<Props, State> {
     this.props.listEntities(params);
   }
 
-  handleOnSubmitFilter = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const {
-      paginateEntitiesParams: { page, pageSize, sort, order, ...rest }
-    } = this.props.entities;
+  // handleOnSubmitFilter = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const {
+  //     paginateEntitiesParams: { page, pageSize, sort, order, ...rest }
+  //   } = this.props.entities;
 
-    const params = { ...rest, ...this.props.form.getFieldsValue() };
-    this.loadEntities(params);
-    this.props.setListEntitiesParams(params);
-  };
+  //   const params = { ...rest, ...this.props.form.getFieldsValue() };
+  //   this.loadEntities(params);
+  //   this.props.setListEntitiesParams(params);
+  // };
 
   handleOnResetFilter = () => {
     this.props.cleanEntities();
-    this.props.form.resetFields();
+    // this.props.form.resetFields();
     this.loadEntities();
   };
 
-  handleOnTableChange = (pagination: PaginationConfig, filters: any, sorter: any) => {
+  handleOnTableChange = (
+    pagination: PaginationConfig,
+    filters: any,
+    sorter: any
+  ) => {
     const { paginateEntitiesParams: params } = this.props.entities;
 
     params.page = pagination.current;
@@ -79,10 +82,10 @@ class EntitiesContainer extends React.Component<Props, State> {
 
   handleOnClickDelete = (id: string) => {
     Modal.confirm({
-      title: this.props.translate('generic.labels.delete'),
-      content: this.props.translate('entities.modals.delete'),
-      okText: this.props.translate('generic.labels.yes'),
-      cancelText: this.props.translate('generic.labels.no'),
+      title: this.props.translate("generic.labels.delete"),
+      content: this.props.translate("entities.modals.delete"),
+      okText: this.props.translate("generic.labels.yes"),
+      cancelText: this.props.translate("generic.labels.no"),
       onOk: () => {
         return this.deleteRecord(id);
       },
@@ -91,8 +94,10 @@ class EntitiesContainer extends React.Component<Props, State> {
   };
 
   render(): React.ReactNode {
-    const { form, entities } = this.props;
-    const { paginateEntities: { docs, page, limit, totalDocs } = {} as any } = entities;
+    const { entities } = this.props;
+    const {
+      paginateEntities: { docs, page, limit, totalDocs } = {} as any
+    } = entities;
     const pagination = {
       current: page,
       pageSize: limit,
@@ -107,8 +112,10 @@ class EntitiesContainer extends React.Component<Props, State> {
               <Content
                 body={
                   <>
-                    <Divider orientation="left">{translate('nav.entities')}</Divider>
-                    <EntitiesFilterForm form={form} onSubmit={this.handleOnSubmitFilter} onReset={this.handleOnResetFilter} />
+                    <Divider orientation="left">
+                      {translate("nav.entities")}
+                    </Divider>
+                    <EntitiesFilterForm onReset={this.handleOnResetFilter} />
                     <EntitiesList
                       propsTable={{
                         data: docs,
@@ -129,16 +136,16 @@ class EntitiesContainer extends React.Component<Props, State> {
   }
 }
 
-const WrappedEntitiesContainer = Form.create<Props>({ name: 'entitiesFilter' })(EntitiesContainer);
-
 const mapStateToProps = (state: any) => ({
   translate: getTranslate(state.localize),
   entities: state.entities
 });
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    { cleanEntities, listEntities, setListEntitiesParams, deleteEntity }
-  )(WrappedEntitiesContainer)
+  connect(mapStateToProps, {
+    cleanEntities,
+    listEntities,
+    setListEntitiesParams,
+    deleteEntity
+  })(EntitiesContainer)
 );

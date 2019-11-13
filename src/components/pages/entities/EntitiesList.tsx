@@ -1,8 +1,8 @@
-import { useApolloClient, useLazyQuery } from '@apollo/react-hooks';
+import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import { Button, Icon, Table } from 'antd';
 import { PaginationConfig } from 'antd/lib/table';
 import _ from 'lodash';
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import { Link } from 'react-router-dom';
 
@@ -18,22 +18,24 @@ interface Props {
 const EntitiesList: React.FunctionComponent<Props> = props => {
   const { propsTable, onClickDelete } = props;
   const client = useApolloClient();
+  const defaultParams = { page: 1, pageSize: 5 } as any;
 
-  const [
-    getEntitiesPaginated,
-    { data: dataLazyQuery = {} as any }
-  ] = useLazyQuery(GET_ENTITIES_PAGINATED);
+  const { data = {} as any, refetch: refetchEntitiesPaginated } = useQuery(
+    GET_ENTITIES_PAGINATED,
+    {
+      variables: { filter: defaultParams }
+    }
+  );
 
   const {
     getEntitiesPaginated: { docs, page, limit, totalDocs } = {} as any,
     paginateEntitiesParams: { __typename, ...restParams } = {} as any
-  } = dataLazyQuery;
-
-  const [params, setParams] = useState({ page: 1, pageSize: 5 } as any);
+  } = data;
 
   useEffect(() => {
-    getEntitiesPaginated({ variables: { filter: params } });
-  }, [params, getEntitiesPaginated]);
+    console.log(restParams);
+    refetchEntitiesPaginated({ filter: restParams });
+  }, [restParams, refetchEntitiesPaginated]);
 
   const pagination = {
     current: page,
@@ -55,11 +57,10 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
       newParams.order = sorter.order;
     }
 
-    getEntitiesPaginated({ variables: { filter: newParams } });
+    refetchEntitiesPaginated({ filter: newParams });
     client.writeData({
       data: { paginateEntitiesParams: { ...newParams, __typename } }
     });
-    setParams(newParams);
   };
 
   return (

@@ -24,7 +24,7 @@ cache.writeData({
   data: {
     paginateEntitiesParams: {
       page: 1,
-      pageSize: 10,
+      pageSize: 5,
       sort: "_id",
       order: "asc",
       __typename: "PaginateEntitiesParams"
