@@ -1,12 +1,13 @@
 import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import { Button, Icon, Table } from 'antd';
 import { PaginationConfig } from 'antd/lib/table';
+import { gql } from 'apollo-boost';
 import _ from 'lodash';
 import React, { memo, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import { Link } from 'react-router-dom';
 
-import { GET_ENTITIES_PAGINATED } from '../../../graphql/entities';
+import { GET_ENTITIES_PAGINATED, GET_PAGINATE_ENTITIES_PARAMS } from '../../../graphql/entities';
 import { IPropsTable } from '../../../interfaces';
 import PATHS from '../../../utils/paths';
 
@@ -18,24 +19,20 @@ interface Props {
 const EntitiesList: React.FunctionComponent<Props> = props => {
   const { propsTable, onClickDelete } = props;
   const client = useApolloClient();
-  const defaultParams = { page: 1, pageSize: 5 } as any;
-
-  const { data = {} as any, refetch: refetchEntitiesPaginated } = useQuery(
-    GET_ENTITIES_PAGINATED,
-    {
-      variables: { filter: defaultParams }
-    }
-  );
 
   const {
-    getEntitiesPaginated: { docs, page, limit, totalDocs } = {} as any,
-    paginateEntitiesParams: { __typename, ...restParams } = {} as any
-  } = data;
+    data: {
+      getPaginateEntitiesParams: { __typename, ...restParams } = {} as any
+    } = {} as any
+  } = useQuery(GET_PAGINATE_ENTITIES_PARAMS);
+  console.log("Prueba", restParams);
+  const { data = {} as any } = useQuery(GET_ENTITIES_PAGINATED, {
+    variables: { filter: restParams }
+  });
 
-  useEffect(() => {
-    console.log(restParams);
-    refetchEntitiesPaginated({ filter: restParams });
-  }, [restParams, refetchEntitiesPaginated]);
+  const {
+    getEntitiesPaginated: { docs, page, limit, totalDocs } = {} as any
+  } = data;
 
   const pagination = {
     current: page,
@@ -57,7 +54,6 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
       newParams.order = sorter.order;
     }
 
-    refetchEntitiesPaginated({ filter: newParams });
     client.writeData({
       data: { paginateEntitiesParams: { ...newParams, __typename } }
     });

@@ -1,10 +1,10 @@
-import { useApolloClient, useQuery } from '@apollo/react-hooks';
+import { useApolloClient, useMutation, useQuery } from '@apollo/react-hooks';
 import { Button, Collapse, Divider, Icon, Input, InputNumber } from 'antd';
 import Form, { FormComponentProps } from 'antd/lib/form/Form';
 import React, { memo, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 
-import { GET_ENTITIES_PAGINATED } from '../../../graphql/entities';
+import { GET_ENTITIES_PAGINATED, SET_PAGINATE_ENTITIES_PARAMS } from '../../../graphql/entities';
 import FormItem from '../../shared/forms/FormItem';
 
 interface Props extends FormComponentProps {
@@ -14,6 +14,7 @@ interface Props extends FormComponentProps {
 const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
   const { form, onReset } = props;
   const client = useApolloClient();
+  const [setPaginateEntitiesParams] = useMutation(SET_PAGINATE_ENTITIES_PARAMS);
   const defaultParams = { page: 1, pageSize: 5 } as any;
 
   const {
@@ -28,7 +29,6 @@ const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
   } = dataLazyQuery;
 
   useEffect(() => {
-    console.log(restParams);
     refetchEntitiesPaginated({ filter: restParams });
   }, [restParams, refetchEntitiesPaginated]);
 
@@ -40,6 +40,9 @@ const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
     refetchEntitiesPaginated({ filter: newParams });
     client.writeData({
       data: { paginateEntitiesParams: { ...newParams, __typename } }
+    });
+    setPaginateEntitiesParams({
+      variables: { params: newParams }
     });
   };
 

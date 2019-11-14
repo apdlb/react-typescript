@@ -115,7 +115,7 @@ class EntitiesContainer extends React.Component<Props, State> {
                     <Divider orientation="left">
                       {translate("nav.entities")}
                     </Divider>
-                    <EntitiesFilterForm onReset={this.handleOnResetFilter} />
+                    {/* <EntitiesFilterForm onReset={this.handleOnResetFilter} /> */}
                     <EntitiesList
                       propsTable={{
                         data: docs,

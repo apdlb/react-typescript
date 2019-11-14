@@ -23,11 +23,13 @@ const client = new ApolloClient({
 cache.writeData({
   data: {
     paginateEntitiesParams: {
+      __typename: "PaginateEntitiesParams",
       page: 1,
       pageSize: 5,
       sort: "_id",
       order: "asc",
-      __typename: "PaginateEntitiesParams"
+      field1: null,
+      field2: null
     } as any
   }
 });
