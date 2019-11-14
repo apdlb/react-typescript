@@ -21,17 +21,7 @@ const client = new ApolloClient({
   resolvers
 });
 cache.writeData({
-  data: {
-    paginateEntitiesParams: {
-      __typename: "PaginateEntitiesParams",
-      page: 1,
-      pageSize: 5,
-      sort: "_id",
-      order: "asc",
-      field1: null,
-      field2: null
-    } as any
-  }
+  data: {}
 });
 
 const rootComponent = (

@@ -10,7 +10,6 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { cleanEntities, deleteEntity, listEntities, setListEntitiesParams } from '../../../redux/actions/EntityActions';
 import Content from '../../shared/Content';
-import EntitiesFilterForm from './EntitiesFilterForm';
 import EntitiesList from './EntitiesList';
 
 interface MatchParams {}

@@ -24,3 +24,16 @@ export const GET_PAGINATE_ENTITIES_PARAMS = gql`
     }
   }
 `;
+
+/********************************************** TEST */
+export const ENTITIES_PAGINATED = gql`
+  query entitiesPaginated {
+    entitiesPaginated @client
+  }
+`;
+
+export const SET_ENTITIES_PAGINATED = gql`
+  mutation setEntitiesPaginated($entitiesPaginated: JSON!) {
+    setEntitiesPaginated(entitiesPaginated: $entitiesPaginated) @client
+  }
+`;
