@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 
 import App from './App';
+import { initialEntities } from './graphql/entities';
 import { persistor, store } from './redux/store';
 import { resolvers, typeDefs } from './resolvers';
 import * as serviceWorker from './serviceWorker';
@@ -22,22 +23,7 @@ const client = new ApolloClient({
 });
 cache.writeData({
   data: {
-    entitiesPaginated: {
-      __typename: "EntitiesPaginated",
-      docs: [],
-      page: null,
-      limit: null,
-      totalDocs: null
-    } as any,
-    paginateEntitiesParams: {
-      __typename: "PaginateEntitiesParams",
-      page: 1,
-      pageSize: 2,
-      sort: "_id",
-      order: "asc",
-      field1: null,
-      field2: null
-    } as any
+    ...initialEntities
   }
 });
 

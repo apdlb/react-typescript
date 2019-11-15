@@ -169,21 +169,14 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
               loading={propsTable.loading}
               onChange={onTableChange}
             />
-            <Button
-              className="float"
-              type="primary"
-              shape="circle"
-              icon="plus"
-              onClick={() => setEntitiesPaginated()}
-            />
-            {/* <Link to={PATHS.ENTITIES_NEW}>
+            <Link to={PATHS.ENTITIES_NEW}>
               <Button
                 className="float"
                 type="primary"
                 shape="circle"
                 icon="plus"
               />
-            </Link> */}
+            </Link>
           </>
         );
       }}
