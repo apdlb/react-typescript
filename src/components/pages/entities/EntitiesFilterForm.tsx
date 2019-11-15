@@ -1,8 +1,8 @@
-import { useApolloClient, useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
 import { Button, Collapse, Divider, Icon, Input, InputNumber } from 'antd';
 import Form, { FormComponentProps } from 'antd/lib/form/Form';
 import _ from 'lodash';
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import { Translate } from 'react-localize-redux';
 
 import {
@@ -12,6 +12,7 @@ import {
   SET_ENTITIES_PAGINATED,
   SET_PAGINATE_ENTITIES_PARAMS
 } from '../../../graphql/entities';
+import CONSTANTS from '../../../utils/constants';
 import FormItem from '../../shared/forms/FormItem';
 
 interface Props extends FormComponentProps {
@@ -19,10 +20,7 @@ interface Props extends FormComponentProps {
 }
 
 const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
-  let componentDidMount;
   const { form, onReset } = props;
-  const client = useApolloClient();
-  const defaultParams = { page: 1, pageSize: 2 };
 
   const [setEntitiesPaginated] = useMutation(SET_ENTITIES_PAGINATED, {
     update: (cache, res) => {
@@ -44,14 +42,7 @@ const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
     }
   });
 
-  const [
-    getEntitiesPaginated,
-    {
-      data: {
-        getEntitiesPaginated: getEntitiesPaginatedData = {} as any
-      } = {} as any
-    }
-  ] = useLazyQuery(GET_ENTITIES_PAGINATED, {
+  const [getEntitiesPaginated] = useLazyQuery(GET_ENTITIES_PAGINATED, {
     onCompleted: data => {
       setEntitiesPaginated({
         variables: {
@@ -67,9 +58,6 @@ const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
       update: (cache, res) => {
         const data = cache.readQuery({
           query: PAGINATE_ENTITIES_PARAMS
-        }) as any;
-        const dataEntities = cache.readQuery({
-          query: ENTITIES_PAGINATED
         }) as any;
 
         const dataClone = {
@@ -99,9 +87,10 @@ const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { page, pageSize, sort, order, ...rest } = restParams;
+    const { page, pageSize, ...rest } = restParams;
     const params = {
-      ...defaultParams,
+      page: CONSTANTS.PAGE_1,
+      pageSize: CONSTANTS.PAGE_SIZE_2,
       ...rest,
       ..._.pickBy(form.getFieldsValue(), _.identity)
     };
