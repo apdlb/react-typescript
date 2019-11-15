@@ -1,10 +1,17 @@
-import { useApolloClient, useMutation, useQuery } from '@apollo/react-hooks';
+import { useApolloClient, useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
 import { Button, Collapse, Divider, Icon, Input, InputNumber } from 'antd';
 import Form, { FormComponentProps } from 'antd/lib/form/Form';
+import _ from 'lodash';
 import React, { memo, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 
-import { GET_ENTITIES_PAGINATED, SET_PAGINATE_ENTITIES_PARAMS } from '../../../graphql/entities';
+import {
+  ENTITIES_PAGINATED,
+  GET_ENTITIES_PAGINATED,
+  PAGINATE_ENTITIES_PARAMS,
+  SET_ENTITIES_PAGINATED,
+  SET_PAGINATE_ENTITIES_PARAMS
+} from '../../../graphql/entities';
 import FormItem from '../../shared/forms/FormItem';
 
 interface Props extends FormComponentProps {
@@ -12,37 +19,98 @@ interface Props extends FormComponentProps {
 }
 
 const EntitiesFormFilter: React.FunctionComponent<Props> = props => {
+  let componentDidMount;
   const { form, onReset } = props;
   const client = useApolloClient();
-  const [setPaginateEntitiesParams] = useMutation(SET_PAGINATE_ENTITIES_PARAMS);
-  const defaultParams = { page: 1, pageSize: 5 } as any;
+  const defaultParams = { page: 1, pageSize: 2 };
 
-  const {
-    data: dataLazyQuery = {} as any,
-    refetch: refetchEntitiesPaginated
-  } = useQuery(GET_ENTITIES_PAGINATED, {
-    variables: { filter: defaultParams }
+  const [setEntitiesPaginated] = useMutation(SET_ENTITIES_PAGINATED, {
+    update: (cache, res) => {
+      const data = cache.readQuery({
+        query: ENTITIES_PAGINATED
+      }) as any;
+
+      const dataClone = {
+        ...data,
+        entitiesPaginated: {
+          ...res?.data?.setEntitiesPaginated
+        }
+      };
+
+      cache.writeQuery({
+        query: ENTITIES_PAGINATED,
+        data: dataClone
+      });
+    }
   });
+
+  const [
+    getEntitiesPaginated,
+    {
+      data: {
+        getEntitiesPaginated: getEntitiesPaginatedData = {} as any
+      } = {} as any
+    }
+  ] = useLazyQuery(GET_ENTITIES_PAGINATED, {
+    onCompleted: data => {
+      setEntitiesPaginated({
+        variables: {
+          entitiesPaginated: data?.getEntitiesPaginated
+        }
+      });
+    }
+  });
+
+  const [setPaginateEntitiesParams] = useMutation(
+    SET_PAGINATE_ENTITIES_PARAMS,
+    {
+      update: (cache, res) => {
+        const data = cache.readQuery({
+          query: PAGINATE_ENTITIES_PARAMS
+        }) as any;
+        const dataEntities = cache.readQuery({
+          query: ENTITIES_PAGINATED
+        }) as any;
+
+        const dataClone = {
+          ...data,
+          paginateEntitiesParams: {
+            ...res?.data?.setPaginateEntitiesParams
+          }
+        };
+
+        cache.writeQuery({
+          query: PAGINATE_ENTITIES_PARAMS,
+          data: dataClone
+        });
+      }
+    }
+  );
+
+  // Get params of pagination from cache
+  const { data: dataPaginateEntitiesParamsCached } = useQuery(
+    PAGINATE_ENTITIES_PARAMS
+  );
 
   const {
     paginateEntitiesParams: { __typename, ...restParams } = {} as any
-  } = dataLazyQuery;
-
-  useEffect(() => {
-    refetchEntitiesPaginated({ filter: restParams });
-  }, [restParams, refetchEntitiesPaginated]);
+  } = dataPaginateEntitiesParamsCached;
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const { page, pageSize, sort, order, ...rest } = restParams;
-    const newParams = { ...defaultParams, ...rest, ...form.getFieldsValue() };
-    refetchEntitiesPaginated({ filter: newParams });
-    client.writeData({
-      data: { paginateEntitiesParams: { ...newParams, __typename } }
+    const params = {
+      ...defaultParams,
+      ...rest,
+      ..._.pickBy(form.getFieldsValue(), _.identity)
+    };
+
+    getEntitiesPaginated({
+      variables: { filter: params }
     });
     setPaginateEntitiesParams({
-      variables: { params: newParams }
+      variables: { params }
     });
   };
 

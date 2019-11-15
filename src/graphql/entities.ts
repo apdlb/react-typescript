@@ -6,11 +6,11 @@ export const GET_ENTITIES_PAGINATED = gql`
   }
 `;
 
-export const SET_PAGINATE_ENTITIES_PARAMS = gql`
-  mutation SetPaginateEntitiesParams($params: JSON) {
-    setPaginateEntitiesParams(params: $params) @client
-  }
-`;
+// export const SET_PAGINATE_ENTITIES_PARAMS = gql`
+//   mutation SetPaginateEntitiesParams($params: JSON) {
+//     setPaginateEntitiesParams(params: $params) @client
+//   }
+// `;
 
 export const GET_PAGINATE_ENTITIES_PARAMS = gql`
   query GetPaginateEntitiesParams {
@@ -28,12 +28,36 @@ export const GET_PAGINATE_ENTITIES_PARAMS = gql`
 /********************************************** TEST */
 export const ENTITIES_PAGINATED = gql`
   query entitiesPaginated {
-    entitiesPaginated @client
+    entitiesPaginated @client {
+      docs
+      page
+      limit
+      totalDocs
+    }
   }
 `;
 
 export const SET_ENTITIES_PAGINATED = gql`
   mutation setEntitiesPaginated($entitiesPaginated: JSON!) {
     setEntitiesPaginated(entitiesPaginated: $entitiesPaginated) @client
+  }
+`;
+
+export const PAGINATE_ENTITIES_PARAMS = gql`
+  query paginateEntitiesParams {
+    paginateEntitiesParams @client {
+      page
+      pageSize
+      sort
+      order
+      field1
+      field2
+    }
+  }
+`;
+
+export const SET_PAGINATE_ENTITIES_PARAMS = gql`
+  mutation setPaginateEntitiesParams($params: JSON!) {
+    setPaginateEntitiesParams(params: $params) @client
   }
 `;

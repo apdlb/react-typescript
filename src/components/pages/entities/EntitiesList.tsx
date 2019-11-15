@@ -1,15 +1,21 @@
-import { useApolloClient, useMutation, useQuery } from '@apollo/react-hooks';
+import { useApolloClient, useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
 import { Button, Icon, Table } from 'antd';
 import { PaginationConfig } from 'antd/lib/table';
-import { gql } from 'apollo-boost';
 import _ from 'lodash';
 import React, { memo, useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import { Link } from 'react-router-dom';
 
-import { ENTITIES_PAGINATED, GET_ENTITIES_PAGINATED, SET_ENTITIES_PAGINATED } from '../../../graphql/entities';
+import {
+  ENTITIES_PAGINATED,
+  GET_ENTITIES_PAGINATED,
+  PAGINATE_ENTITIES_PARAMS,
+  SET_ENTITIES_PAGINATED,
+  SET_PAGINATE_ENTITIES_PARAMS
+} from '../../../graphql/entities';
 import { IPropsTable } from '../../../interfaces';
 import PATHS from '../../../utils/paths';
+import Loading from '../../shared/Loading';
 
 interface Props {
   propsTable: IPropsTable;
@@ -17,39 +23,29 @@ interface Props {
 }
 
 const EntitiesList: React.FunctionComponent<Props> = props => {
+  let componentDidMount;
   const { propsTable, onClickDelete } = props;
-  const client = useApolloClient();
 
-  // const {
-  //   data: {
-  //     getPaginateEntitiesParams: { __typename, ...restParams } = {} as any
-  //   } = {} as any
-  // } = useQuery(GET_PAGINATE_ENTITIES_PARAMS);
-  // console.log("Prueba", restParams);
-  const {
-    loading: l1,
-    data: { getEntitiesPaginated = {} as any } = {} as any
-  } = useQuery(GET_ENTITIES_PAGINATED, {
-    variables: { filter: { page: 1, pageSize: 2 } }
-  });
-
-  const { loading: l2, data: q2 } = useQuery(ENTITIES_PAGINATED);
-
-  console.log(l1, getEntitiesPaginated);
-  console.log("Entre medio");
-  console.log(l2, q2);
+  const [
+    getEntitiesPaginated,
+    {
+      loading,
+      data: {
+        getEntitiesPaginated: getEntitiesPaginatedData = {} as any
+      } = {} as any
+    }
+  ] = useLazyQuery(GET_ENTITIES_PAGINATED);
 
   const [setEntitiesPaginated] = useMutation(SET_ENTITIES_PAGINATED, {
-    update: cache => {
+    update: (cache, res) => {
       const data = cache.readQuery({
         query: ENTITIES_PAGINATED
       }) as any;
-      console.log("mutation", data);
+
       const dataClone = {
         ...data,
         entitiesPaginated: {
-          ...data.entitiesPaginated,
-          ...getEntitiesPaginated
+          ...res?.data?.setEntitiesPaginated
         }
       };
 
@@ -60,22 +56,42 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
     }
   });
 
-  useEffect(() => {
-    if (!_.isEmpty(getEntitiesPaginated)) {
-      setEntitiesPaginated({
-        variables: { entitiesPaginated: getEntitiesPaginated }
-      });
-    }
-  }, [getEntitiesPaginated, setEntitiesPaginated]);
+  const [setPaginateEntitiesParams] = useMutation(
+    SET_PAGINATE_ENTITIES_PARAMS,
+    {
+      update: (cache, res) => {
+        const data = cache.readQuery({
+          query: PAGINATE_ENTITIES_PARAMS
+        }) as any;
 
-  // TEST
-  const data = {} as any;
-  const restParams = {} as any;
-  const __typename = "";
-  //
+        const dataClone = {
+          ...data,
+          paginateEntitiesParams: {
+            ...res?.data?.setPaginateEntitiesParams
+          }
+        };
+
+        cache.writeQuery({
+          query: PAGINATE_ENTITIES_PARAMS,
+          data: dataClone
+        });
+      }
+    }
+  );
+
+  // Get list of entities from cache
+  const { data: dataEntitiesPaginatedCached } = useQuery(ENTITIES_PAGINATED);
+  // Get params of pagination from cache
+  const { data: dataPaginateEntitiesParamsCached } = useQuery(
+    PAGINATE_ENTITIES_PARAMS
+  );
+
   const {
-    getEntitiesPaginated: { docs, page, limit, totalDocs } = {} as any
-  } = data;
+    entitiesPaginated: { docs, page, limit, totalDocs } = {} as any
+  } = dataEntitiesPaginatedCached;
+  const {
+    paginateEntitiesParams: { __typename, ...restParams } = {} as any
+  } = dataPaginateEntitiesParamsCached;
 
   const pagination = {
     current: page,
@@ -83,25 +99,42 @@ const EntitiesList: React.FunctionComponent<Props> = props => {
     total: totalDocs
   };
 
+  useEffect(() => {
+    getEntitiesPaginated({ variables: { filter: restParams } });
+    setEntitiesPaginated({
+      variables: {
+        entitiesPaginated: getEntitiesPaginatedData
+      }
+    });
+  }, [
+    componentDidMount,
+    getEntitiesPaginatedData,
+    getEntitiesPaginated,
+    setEntitiesPaginated
+  ]);
+
   const onTableChange = (
     pagination: PaginationConfig,
     filters: any,
     sorter: any
   ) => {
-    const newParams = Object.assign({}, restParams);
-    newParams.page = pagination.current;
-    newParams.pageSize = pagination.pageSize;
+    const params = Object.assign({}, restParams);
+    params.page = pagination.current;
+    params.pageSize = pagination.pageSize;
 
     if (!_.isEmpty(sorter)) {
-      newParams.sort = sorter.field;
-      newParams.order = sorter.order;
+      params.sort = sorter.field;
+      params.order = sorter.order;
     }
 
-    client.writeData({
-      data: { paginateEntitiesParams: { ...newParams, __typename } }
+    getEntitiesPaginated({ variables: { filter: params } });
+    setPaginateEntitiesParams({
+      variables: { params }
     });
   };
 
+  if (loading) return <Loading />;
+  console.log("Lista-->", dataEntitiesPaginatedCached);
   return (
     <Translate>
       {({ translate }) => {

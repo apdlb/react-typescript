@@ -21,7 +21,24 @@ const client = new ApolloClient({
   resolvers
 });
 cache.writeData({
-  data: {}
+  data: {
+    entitiesPaginated: {
+      __typename: "EntitiesPaginated",
+      docs: [],
+      page: null,
+      limit: null,
+      totalDocs: null
+    } as any,
+    paginateEntitiesParams: {
+      __typename: "PaginateEntitiesParams",
+      page: 1,
+      pageSize: 2,
+      sort: "_id",
+      order: "asc",
+      field1: null,
+      field2: null
+    } as any
+  }
 });
 
 const rootComponent = (

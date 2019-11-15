@@ -10,6 +10,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { cleanEntities, deleteEntity, listEntities, setListEntitiesParams } from '../../../redux/actions/EntityActions';
 import Content from '../../shared/Content';
+import EntitiesFilterForm from './EntitiesFilterForm';
 import EntitiesList from './EntitiesList';
 
 interface MatchParams {}
@@ -114,7 +115,7 @@ class EntitiesContainer extends React.Component<Props, State> {
                     <Divider orientation="left">
                       {translate("nav.entities")}
                     </Divider>
-                    {/* <EntitiesFilterForm onReset={this.handleOnResetFilter} /> */}
+                    <EntitiesFilterForm onReset={this.handleOnResetFilter} />
                     <EntitiesList
                       propsTable={{
                         data: docs,
