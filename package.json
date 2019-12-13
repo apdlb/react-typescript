@@ -58,7 +58,6 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
     "@types/graphql-type-json": "^0.3.2",
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^0.9.1",
