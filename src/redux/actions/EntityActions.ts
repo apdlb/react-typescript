@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { createAction } from 'redux-actions';
 
-import { apiFetch } from '../../services';
-import { urlEntities } from '../../services/urls';
+import { apiFetch } from '../../api';
+import { urlEntities } from '../../api/urls';
 import CONSTANTS from '../../utils/constants';
 
 const generateFilter = ({ mode = 'paginate', page = 1, pageSize = CONSTANTS.PAGE_SIZE_5, sort, order, ...filters }: any) => {
